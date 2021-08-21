@@ -1,7 +1,6 @@
-plugins {
-    id 'com.android.application'
-    id 'kotlin-android'
-}
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -41,4 +40,5 @@ dependencies {
 
     implementation rootProject.ext.deps.recyclerview
     implementation project(':zax-base')
+    implementation project(':zax-view')
 }
