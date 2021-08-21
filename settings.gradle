@@ -1,2 +1,3 @@
+include ':zax-view'
 include ':app'
 rootProject.name = "tools"
