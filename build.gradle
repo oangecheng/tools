@@ -31,3 +31,20 @@ ext {
         buildToolsVersion: "30.0.3"
     ]
 }
+
+def deps = [:]
+deps.guava = "com.google.guava:guava:24.0-android"
+deps.gson = "com.google.code.gson:gson:2.8.5"
+deps.androidx_annotation = "androidx.annotation:annotation:1.1.0"
+deps.rxjava = 'io.reactivex.rxjava2:rxjava:2.2.0'
+deps.rxandroid = 'io.reactivex.rxjava2:rxandroid:2.0.1'
+deps.eventbus = "org.greenrobot:eventbus:3.0.0"
+deps.parceler_api = 'org.parceler:parceler-api:1.1.12'
+deps.parceler = 'org.parceler:parceler:1.1.12'
+deps.retrofit = 'com.squareup.retrofit2:retrofit:2.6.1'
+deps.retrofit_converter_gson = "com.squareup.retrofit2:converter-gson:2.6.1"
+deps.retrofit_adapter_rxjava2 = "com.squareup.retrofit2:adapter-rxjava2:2.6.1"
+deps.recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
+deps.androidx_collection = "androidx.collection:collection:1.1.0"
+
+ext.deps = deps
