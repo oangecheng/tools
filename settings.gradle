@@ -2,3 +2,5 @@ include ':zax-base'
 include ':zax-view'
 include ':app'
 rootProject.name = "tools"
+include ':annotations:test-annotation'
+include ':annotations:test-compiler'
