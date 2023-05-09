@@ -1,19 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
+  android:background="@color/black"
   tools:context=".MainActivity">
+
+  <FrameLayout
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+  <RelativeLayout
+    android:id="@+id/live_multi_pk_sign_root"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:layout_marginTop="200dp">
+
+    <TextView
+      android:layout_marginTop="6dp"
+      android:layout_marginBottom="6dp"
+      android:id="@+id/live_multi_pk_sign_fall_score"
+      android:layout_width="wrap_content"
+      android:layout_height="20dp"
+      android:layout_marginStart="1dp"
+      android:gravity="center"
+      android:paddingRight="15dp"
+      android:text="1234484"
+      android:textColor="#FE3666"
+      android:background="#00FF00"
+      android:textSize="12dp" />
+
+    <ImageView
+      android:layout_marginTop="6dp"
+      android:layout_marginBottom="6dp"
+      android:id="@+id/live_multi_pk_sign_support_bg"
+      android:layout_width="31dp"
+      android:layout_height="20dp"
+      android:layout_toRightOf="@+id/live_multi_pk_sign_fall_score"
+      android:layout_marginLeft="-10dp"
+      android:src="#FE3666" />
+
+    <TextView
+      android:layout_marginTop="6dp"
+      android:layout_marginBottom="6dp"
+      android:id="@+id/live_multi_pk_sign_support"
+      android:layout_width="31dp"
+      android:layout_height="20dp"
+      android:layout_gravity="center"
+      android:layout_marginLeft="-10dp"
+      android:layout_toRightOf="@+id/live_multi_pk_sign_fall_score"
+      android:background="#FE3666"
+      android:gravity="center"
+      android:text="助力"
+      android:layout_marginRight="6dp"
+      android:textColor="@color/white"
+      android:textSize="11dp"
+      android:visibility="visible" />
+
+    <FrameLayout
+      android:layout_marginTop="6dp"
+      android:layout_marginBottom="6dp"
+      android:layout_marginLeft="-10dp"
+      android:layout_toRightOf="@+id/live_multi_pk_sign_fall_score"
+      android:layout_centerVertical="true"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content">
+
+      <ImageView
+        android:id="@+id/live_multi_pk_sign_shimmer_anim"
+        android:layout_width="31dp"
+        android:layout_height="20dp"
+        android:src="@drawable/shimmer"
+        android:visibility="visible" />
+    </FrameLayout>
+  </RelativeLayout>
+
+
+  <LinearLayout
+    android:id="@+id/live_multi_pk_info_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom|right"
+    android:layout_marginBottom="6dp"
+    android:layout_marginRight="6dp"
+    android:background="@color/black"
+    android:gravity="right|center_vertical">
+
+    <ImageView
+      android:id="@+id/mute"
+      android:layout_width="20dp"
+      android:layout_height="20dp"
+      android:background="#FF0000"
+      tools:visibility="visible" />
+
+    <TextView
+      android:id="@+id/user_name"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_marginRight="2dp"
+      android:ellipsize="end"
+      android:gravity="center"
+      android:maxLines="1"
+      android:text="大海哦文具紧迫局面"
+      android:textColor="@color/white"
+      android:textSize="11dp"
+      tools:text="晴天娃娃小霹雳" />
+
+
+    <ImageView
+      android:id="@+id/follow"
+      android:layout_width="20dp"
+      android:layout_height="20dp"
+      android:background="#00FF00"
+      tools:visibility="visible" />
+  </LinearLayout>
 
   <TextView
     android:id="@+id/title"
+    android:layout_gravity="center"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Hello World!"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    android:textColor="#FF0000"
+    android:visibility="gone"
+    android:text="Hello World!" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/add"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="增加宽度" />
+
+  <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/reduce"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="100dp"
+    android:text="减少宽度" />
+
+  </FrameLayout>
+
+
+  <LinearLayout
+    android:layoutDirection="rtl"
+    android:layout_gravity="center"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+      android:background="@color/white"
+      android:layout_width="50dp"
+      android:layout_height="50dp"/>
+
+    <ImageView
+      android:background="@color/design_default_color_primary"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginRight="-10dp"/>
+
+
+
+    <ImageView
+      android:background="@color/design_default_color_secondary"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginRight="-10dp"/>
+
+
+    <ImageView
+      android:background="#FF0000"
+      android:layout_width="50dp"
+      android:layout_height="50dp"
+      android:layout_marginRight="-10dp"/>
+
+
+  </LinearLayout>
+
+</FrameLayout>
