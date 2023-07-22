@@ -41,6 +41,7 @@ dependencies {
     implementation rootProject.ext.deps.recyclerview
     implementation project(':zax-base')
     implementation project(':zax-view')
+    implementation project(':zax-tool')
 
     implementation project(':annotations:test-annotation')
     annotationProcessor project(':annotations:test-compiler')

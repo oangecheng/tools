@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.ustc.orange.annotation.ZaxLog;
 import com.ustc.zax.base.utils.ViewUtil;
+import com.ustc.zax.tool.JsonUtils;
 
 @ZaxLog
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
     });
 
     testFun(2);
+
+    JsonUtils utils = new JsonUtils();
+    utils.compareTest();
   }
 
 
