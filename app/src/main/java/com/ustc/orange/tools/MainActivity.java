@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
     testFun(2);
 
     JsonUtils utils = new JsonUtils();
-    utils.compareTest();
   }
 
 
