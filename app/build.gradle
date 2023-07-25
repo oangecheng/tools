@@ -42,6 +42,7 @@ dependencies {
     implementation project(':zax-base')
     implementation project(':zax-view')
     implementation project(':zax-tool')
+    implementation project(':zax-service')
 
     implementation project(':annotations:test-annotation')
     annotationProcessor project(':annotations:test-compiler')
