@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 
 import com.ustc.orange.annotation.ZaxLog;
 import com.ustc.zax.base.utils.ViewUtil;
-import com.ustc.zax.service.invocation.BizServiceManager;
-import com.ustc.zax.service.test.LiveBizService;
+import com.ustc.zax.service.BizPresenter;
+import com.ustc.zax.service.example.LiveTestBizPresenter2;
+import com.ustc.zax.service.example.LiveBizScopes;
+import com.ustc.zax.service.example.LiveTestBizPresenter1;
+import com.ustc.zax.service.example.LiveTestBizService;
+import com.ustc.zax.service.manager.BizServiceCenter;
 import com.ustc.zax.tool.JsonUtils;
 
 @ZaxLog
@@ -33,27 +36,26 @@ public class MainActivity extends AppCompatActivity {
     testFun(2);
 
     JsonUtils utils = new JsonUtils();
-    utils.test();
+//    utils.test();
 
-//    BizServiceManager serviceManager = new BizServiceManager();
-////    serviceManager.getService(LiveBizService.class).getProxy().setBizProxy(
-////        new LiveBizService() {
-////          @Override
-////          public void show(String name) {
-////            Log.d("orangeInvoke", "show: real code" + name);
-////          }
-////        }
-////    );
-//
-//    serviceManager.register(LiveBizService.class, new LiveBizService() {});
-//    LiveBizService service = serviceManager.getService(LiveBizService.class);
-//    Log.d("orangeInvoke", "onCreate: " + service.getBoolean());
-//    Log.d("orangeInvoke", "onCreate: " + service.getFloat());
-//    Log.d("orangeInvoke", "onCreate: " + service.getLong());
-//    Log.d("orangeInvoke", "onCreate: " + service.getInt());
-//    Log.d("orangeInvoke", "onCreate: " + service.getString());
-//    service.show("123");
+    testService();
 
+  }
+
+  private void testService() {
+    BizPresenter presenter = new BizPresenter() {
+      @Override
+      public int scope() {
+        return LiveBizScopes.BASE;
+      }
+    };
+    BizServiceCenter center = new BizServiceCenter();
+    center.register(LiveTestBizService.class, new LiveTestBizService() {});
+
+    presenter.addPresenter(new LiveTestBizPresenter1());
+    presenter.addPresenter(new LiveTestBizPresenter2());
+    presenter.create(center);
+    presenter.bind();
   }
 
 

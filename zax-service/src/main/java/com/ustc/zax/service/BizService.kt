@@ -7,9 +7,7 @@ import com.ustc.zax.service.invocation.BizServiceInvoker
  * Author: orange
  * Base service for biz
  */
-interface BizService {
-
-  fun create() : BizService
+interface BizService : BizScope {
 
   /**
    * set delegate

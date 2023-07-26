@@ -1,13 +1,13 @@
-package com.ustc.zax.service.invocation
+package com.ustc.zax.service.manager
 
 import com.ustc.zax.service.BizService
+import com.ustc.zax.service.invocation.obtainDefault
 
 /**
  * Time: 2023/7/22
  * Author: chengzhi@kuaishou.com
- *
  */
-class BizServiceManager {
+class BizServiceCenter : IBizServiceCenter {
 
   private val services = HashMap<Class<out BizService>, BizService>()
 
@@ -27,7 +27,7 @@ class BizServiceManager {
    * 需要提前注册，否则获取会抛异常
    */
   @Suppress("UNCHECKED_CAST")
-  fun <T : BizService> getService(cls: Class<T>): T {
+  override fun <T : BizService> getService(cls: Class<T>): T {
     val service = services[cls]
       ?: throw IllegalAccessException("invalid service, check if the service is registered")
     return service as T
