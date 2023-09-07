@@ -2,20 +2,15 @@ package com.orange.zax.dstclient
 
 import com.orange.zax.dstclient.api.ActionResponse
 import com.orange.zax.dstclient.api.Response
+import com.orange.zax.dstclient.api.RetrofitManager
 import com.orange.zax.dstclient.data.SkinListResponse
 import com.orange.zax.dstclient.data.User
 import com.orange.zax.dstclient.data.UserListResponse
 import io.reactivex.Observable
-import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
-import javax.net.ssl.HostnameVerifier
 
 /**
  * Time: 2023/9/5
@@ -24,23 +19,12 @@ import javax.net.ssl.HostnameVerifier
 interface DstSkinApiService {
 
   companion object {
-    private const val BASE_URL = "https://43.138.31.203:8081/"
-    private const val TEST_URL = "https://172.23.56.60:8080/"
+    val service by lazy {
+      RetrofitManager.create(DstSkinApiService::class.java)
+    }
 
-    fun create(): DstSkinApiService {
-      val client = OkHttpClient.Builder()
-        .hostnameVerifier(HostnameVerifier { _, _ -> true })
-        .build()
-      val retrofit = Retrofit.Builder()
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
-        .addConverterFactory(GsonConverterFactory.create())
-        .callbackExecutor {  }
-        .baseUrl(BASE_URL)
-        .client(client)
-        .build()
-
-
-      return retrofit.create(DstSkinApiService::class.java)
+    fun get(): DstSkinApiService {
+      return service
     }
   }
 

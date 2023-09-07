@@ -1,42 +1,47 @@
 package com.orange.zax.dstclient.pages
 
-import android.app.Activity
-import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import com.orange.zax.dstclient.AdminAccount
 import com.orange.zax.dstclient.DstSkinApiService
 import com.orange.zax.dstclient.R
+import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ResponseFunction
-import com.orange.zax.dstclient.utils.ToastUtil
+import com.orange.zax.dstclient.api.TestConfig
+import com.orange.zax.dstclient.app.DstActivity
+import com.orange.zax.dstclient.app.onClickFilter
 import com.orange.zax.dstclient.utils.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
  * Time: 2023/9/6
  * Author: chengzhi@kuaishou.com
- *
- * Desc:
  */
-class UserActivity :Activity() {
+class UserActivity :DstActivity() {
 
+  private lateinit var resultView: TextView
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.dst_user_layout)
+  override fun getLayoutRes(): Int {
+    return R.layout.dst_user_layout
+  }
 
+  override fun onBizInit() {
     val userIdView = findViewById<EditText>(R.id.userid)
-    val resultView = findViewById<TextView>(R.id.result)
-    findViewById<View>(R.id.query).setOnClickListener {
-      val d = DstSkinApiService.create().queryUserInfo(
-        Utils.emptyIfNull(AdminAccount.adminName),
-        Utils.emptyIfNull(AdminAccount.adminPwd),
-        Utils.emptyIfNull(userIdView.text?.toString())
-      )
+    resultView = findViewById(R.id.result)
+    findViewById<View>(R.id.query).onClickFilter {
+      queryUserInfo(Utils.emptyIfNull(userIdView.text?.toString()))
+    }
+  }
+
+  private fun queryUserInfo(userId: String) {
+    Utils.adminCheck { name, pwd ->
+      DstSkinApiService.get()
+        .queryUserInfo(name, pwd, userId)
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ user ->
+          Log.d(TestConfig.TAG, "user=$user")
           var result = ""
           user.skins.forEach {
             result += it.skinId + "\n"
@@ -44,8 +49,11 @@ class UserActivity :Activity() {
           resultView.text = result
 
         }, {
-          ToastUtil.showShort(it.message ?: "未知错误")
+          ErrorConsumer(this).accept(it)
         })
+        .also {
+          autoDispose(it)
+        }
     }
   }
 }

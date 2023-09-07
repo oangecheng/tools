@@ -14,7 +14,7 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.Tools" >
 
-    <activity android:name="com.orange.zax.dstclient.DstLoginActivity">
+    <activity android:name="com.orange.zax.dstclient.pages.DstLoginActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -22,7 +22,7 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".DstHomeActivity"/>
+    <activity android:name=".pages.DstHomeActivity"/>
     <activity android:name=".pages.BuySkinActivity"/>
     <activity android:name=".pages.ManageSkinActivity"/>
     <activity android:name=".pages.UserActivity"/>

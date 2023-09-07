@@ -1,23 +1,21 @@
-package com.orange.zax.dstclient
+package com.orange.zax.dstclient.pages
 
-import android.app.Activity
-import android.os.Bundle
 import android.view.View
-import com.orange.zax.dstclient.pages.BuySkinActivity
-import com.orange.zax.dstclient.pages.ManageSkinActivity
-import com.orange.zax.dstclient.pages.UserActivity
+import com.orange.zax.dstclient.R
+import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.utils.Utils
 
 /**
  * Time: 2023/9/5
  * Author: chengzhi@kuaishou.com
  */
-class DstHomeActivity : Activity() {
+class DstHomeActivity : DstActivity() {
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.dst_home_layout)
+  override fun getLayoutRes(): Int {
+    return R.layout.dst_home_layout
+  }
 
+  override fun onBizInit() {
     findViewById<View>(R.id.go_buy_skin).setOnClickListener {
       Utils.jumpActivity(this, BuySkinActivity::class.java)
     }
@@ -30,5 +28,4 @@ class DstHomeActivity : Activity() {
       Utils.jumpActivity(this, UserActivity::class.java)
     }
   }
-
 }
