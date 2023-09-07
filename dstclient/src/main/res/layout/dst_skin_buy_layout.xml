@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:background="@color/white">
+
+  <androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/skin_list"
+    android:layout_width="match_parent"
+    android:layout_height="300dp" />
+
+
+  <EditText
+    android:id="@+id/userid"
+    android:layout_width="wrap_content"
+    android:layout_height="50dp"
+    android:layout_marginTop="10dp"
+    android:hint="输入赞助者科雷id" />
+
+  <Button
+    android:id="@+id/unlock"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="解锁" />
+
+</LinearLayout>

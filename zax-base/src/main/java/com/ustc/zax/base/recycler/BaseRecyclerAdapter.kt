@@ -24,7 +24,7 @@ abstract class BaseRecyclerAdapter<MODEL, VH : RecyclerView.ViewHolder>
 
   fun setList(list: List<MODEL>) {
     mList.clear()
-    mList.addAll(list)
+    addAll(list)
   }
 
   fun getList(): List<MODEL> {

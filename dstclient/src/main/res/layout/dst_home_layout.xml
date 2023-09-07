@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/white"
+  android:gravity="center"
+  android:orientation="vertical">
+
+  <Button
+    android:id="@+id/go_buy_skin"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:paddingVertical="5dp"
+    android:text="解锁皮肤" />
+
+  <Button
+    android:id="@+id/go_register_skin"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:paddingVertical="5dp"
+    android:text="新增皮肤" />
+
+  <Button
+    android:id="@+id/go_query_skin"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:paddingVertical="5dp"
+    android:text="查询用户数据" />
+</LinearLayout>

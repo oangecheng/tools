@@ -50,5 +50,10 @@ deps.retrofit_converter_gson = "com.squareup.retrofit2:converter-gson:2.6.1"
 deps.retrofit_adapter_rxjava2 = "com.squareup.retrofit2:adapter-rxjava2:2.6.1"
 deps.recyclerview = "androidx.recyclerview:recyclerview:1.1.0"
 deps.androidx_collection = "androidx.collection:collection:1.1.0"
+deps.okhttp = "com.squareup.okhttp3:okhttp:4.2.0"
+
+deps.retrofit = "com.squareup.retrofit2:retrofit:2.6.2"
+deps.retrofitgson = 'com.squareup.retrofit2:converter-gson:2.6.2'
+deps.retrofitrxjava= 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 
 ext.deps = deps

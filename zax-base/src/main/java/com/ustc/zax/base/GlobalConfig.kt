@@ -1,13 +1,12 @@
 package com.ustc.zax.base
 
 import android.app.Application
-import android.content.Context
 
 object GlobalConfig {
 
-  lateinit var context: Context
+  lateinit var application: Application
 
   fun setApp(app: Application) {
-    context = app
+    this.application = app
   }
 }

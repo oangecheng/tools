@@ -61,6 +61,6 @@ object ViewUtil {
   }
 
   private fun context(): Context {
-    return GlobalConfig.context
+    return GlobalConfig.application
   }
 }
