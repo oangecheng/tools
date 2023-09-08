@@ -12,8 +12,6 @@ import com.ustc.zax.base.recycler.BaseRecyclerAdapter
 /**
  * Time: 2023/9/5
  * Author: chengzhi@kuaishou.com
- *
- * Desc:
  */
 class SkinAdapter : BaseRecyclerAdapter<Skin, ViewHolder>() {
 

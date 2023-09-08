@@ -42,8 +42,10 @@ interface DstSkinApiService {
     @Field("username") username: String,
     @Field("password") password: String,
     @Field("userId") userId : String,
-    @Field("skinIds") skinIds : String
-  ) : Observable<ActionResponse>
+    @Field("skinIds") skinIds : String,
+    @Field("price") price: Int,
+    @Field("extra") extra: String?
+    ) : Observable<ActionResponse>
 
 
   @FormUrlEncoded
@@ -62,7 +64,8 @@ interface DstSkinApiService {
     @Field("skinId") id: String,
     @Field("skinName") name: String,
     @Field("skinPrefab") prefab: String,
-    @Field("skinType") type: Int
+    @Field("skinType") type: Int,
+    @Field("skinPrice") price : Int
   ): Observable<Response<ActionResponse>>
 
 
@@ -74,7 +77,8 @@ interface DstSkinApiService {
     @Field("skinId") id: String,
     @Field("skinName") name: String,
     @Field("prefab") prefab: String,
-    @Field("skinType") type: Int
+    @Field("skinType") type: Int,
+    @Field("skinPrice") price : Int
   ): Observable<Response<ActionResponse>>
 
 

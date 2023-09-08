@@ -18,7 +18,7 @@ abstract class DstActivity : Activity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(getLayoutRes())
-    onBizInit()
+    onBind()
   }
 
   override fun onDestroy() {
@@ -28,14 +28,14 @@ abstract class DstActivity : Activity() {
 
   @LayoutRes
   protected abstract fun getLayoutRes(): Int
-  protected abstract fun onBizInit()
+  protected abstract fun onBind()
 
   protected fun autoDispose(disposable: Disposable) {
     disposables.add(disposable)
   }
 
   protected fun jump(
-    next: Class<DstActivity>,
+    next: Class<out DstActivity>,
     finish: Boolean = false
   ) {
     val intent = Intent()

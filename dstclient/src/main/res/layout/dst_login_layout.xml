@@ -3,16 +3,16 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
+  android:gravity="center"
   android:background="@color/white">
 
   <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="30dp"
     android:orientation="horizontal">
 
     <androidx.appcompat.widget.AppCompatTextView
-      android:layout_width="wrap_content"
+      android:layout_width="50dp"
       android:layout_height="wrap_content"
       android:text="用户名"
       android:textColor="@color/black"
@@ -21,7 +21,7 @@
     <EditText
       android:id="@+id/username"
       android:layout_marginLeft="20dp"
-      android:layout_width="100dp"
+      android:layout_width="200dp"
       android:layout_height="50dp"/>
 
   </LinearLayout>
@@ -32,7 +32,7 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-      android:layout_width="wrap_content"
+      android:layout_width="50dp"
       android:layout_height="wrap_content"
       android:text="密码"
       android:textColor="@color/black"
@@ -42,13 +42,13 @@
     <EditText
       android:id="@+id/password"
       android:layout_marginStart="20dp"
-      android:layout_width="100dp"
+      android:layout_width="200dp"
       android:layout_height="50dp"/>
   </LinearLayout>
 
   <Button
     android:id="@+id/login"
-    android:layout_width="wrap_content"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:layout_marginTop="30dp"
     android:background="#300000FF"

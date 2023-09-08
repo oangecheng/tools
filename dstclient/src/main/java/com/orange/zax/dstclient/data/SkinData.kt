@@ -9,7 +9,8 @@ data class Skin(
   @SerializedName("skinId") val skinId: String,
   @SerializedName("skinName") val skinName: String,
   @SerializedName("prefab") val skinPrefab: String,
-  @SerializedName("skinType") val skinType: Int
+  @SerializedName("skinType") val skinType: Int,
+  @SerializedName("skinPrice") val skinPrice : Int
 ) {
 
   @Transient

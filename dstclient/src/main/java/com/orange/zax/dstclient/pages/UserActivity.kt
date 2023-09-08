@@ -1,16 +1,17 @@
 package com.orange.zax.dstclient.pages
 
-import android.util.Log
+import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
-import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import com.orange.zax.dstclient.DstSkinApiService
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ResponseFunction
-import com.orange.zax.dstclient.api.TestConfig
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.data.User
+import com.orange.zax.dstclient.utils.DstAlert
 import com.orange.zax.dstclient.utils.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -20,15 +21,12 @@ import io.reactivex.android.schedulers.AndroidSchedulers
  */
 class UserActivity :DstActivity() {
 
-  private lateinit var resultView: TextView
-
   override fun getLayoutRes(): Int {
     return R.layout.dst_user_layout
   }
 
-  override fun onBizInit() {
+  override fun onBind() {
     val userIdView = findViewById<EditText>(R.id.userid)
-    resultView = findViewById(R.id.result)
     findViewById<View>(R.id.query).onClickFilter {
       queryUserInfo(Utils.emptyIfNull(userIdView.text?.toString()))
     }
@@ -41,13 +39,7 @@ class UserActivity :DstActivity() {
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ user ->
-          Log.d(TestConfig.TAG, "user=$user")
-          var result = ""
-          user.skins.forEach {
-            result += it.skinId + "\n"
-          }
-          resultView.text = result
-
+          showUserInfoDialog(user)
         }, {
           ErrorConsumer(this).accept(it)
         })
@@ -55,5 +47,32 @@ class UserActivity :DstActivity() {
           autoDispose(it)
         }
     }
+  }
+
+  private fun showUserInfoDialog(user: User) {
+    val info = findViewById<EditText>(R.id.skin_id).text.toString().trim()
+    if (!TextUtils.isEmpty(info)) {
+      if (user.skins.find { TextUtils.equals(it.skinId, info) ||
+          TextUtils.equals(it.skinName, info)} != null
+      ) {
+        "已拥有该皮肤!"
+      } else {
+        "未获得该皮肤!"
+      }.let {
+        DstAlert.alert(this, it)
+      }
+      return
+    }
+
+    val items = user.skins.map {
+      "${it.skinId} ${it.skinName}"
+    }.ifEmpty {
+      listOf("该用户暂未获得任何皮肤")
+    }.toTypedArray()
+    AlertDialog.Builder(this)
+      .setTitle("已解锁的皮肤列表")
+      .setItems(items) { _, _ -> }
+      .setNegativeButton("我知道了") { _, _ -> }
+      .show()
   }
 }

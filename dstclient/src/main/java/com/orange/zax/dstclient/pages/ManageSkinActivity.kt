@@ -24,16 +24,18 @@ class ManageSkinActivity :DstActivity(){
   private lateinit var skinNameView : EditText
   private lateinit var skinPrefabView : EditText
   private lateinit var skinTypeView : EditText
+  private lateinit var skinPriceView : EditText
 
   override fun getLayoutRes(): Int {
     return R.layout.dst_skin_manage_layout
   }
 
-  override fun onBizInit() {
+  override fun onBind() {
     skinIdView = findViewById(R.id.skin_id)
     skinNameView = findViewById(R.id.skin_name)
     skinPrefabView = findViewById(R.id.skin_prefab)
     skinTypeView = findViewById(R.id.skin_type)
+    skinPriceView = findViewById(R.id.skin_price)
 
     findViewById<View>(R.id.skin_register)
       .onClickFilter {
@@ -59,7 +61,7 @@ class ManageSkinActivity :DstActivity(){
   private fun registerSkin(skin: Skin) {
     Utils.adminCheck { name, pwd ->
       DstSkinApiService.get()
-        .registerSkin(name, pwd, skin.skinId, skin.skinName, skin.skinPrefab, skin.skinType)
+        .registerSkin(name, pwd, skin.skinId, skin.skinName, skin.skinPrefab, skin.skinType, skin.skinPrice)
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
@@ -76,7 +78,7 @@ class ManageSkinActivity :DstActivity(){
   private fun updateSkin(skin: Skin) {
     Utils.adminCheck { name, pwd ->
       DstSkinApiService.get()
-        .updateSkin(name, pwd, skin.skinId, skin.skinName, skin.skinPrefab, skin.skinType)
+        .updateSkin(name, pwd, skin.skinId, skin.skinName, skin.skinPrefab, skin.skinType, skin.skinPrice)
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
@@ -95,10 +97,12 @@ class ManageSkinActivity :DstActivity(){
     val name = Utils.emptyIfNull(skinNameView.text.toString())
     val prefab = Utils.emptyIfNull(skinPrefabView.text.toString())
     val type = Utils.safeParseInt(skinTypeView.text?.toString())
-    return Skin(id, name, prefab, type)
+    val price = Utils.safeParseInt(skinPriceView.text?.toString())
+    return Skin(id, name, prefab, type, price)
   }
 
   private fun skinMsg(it: Skin): String {
-    return "确认皮肤信息: \n ${it.skinId} \n ${it.skinName} \n ${it.skinPrefab} \n ${it.skinType} "
+    return "确认皮肤信息: \n id=${it.skinId} \n 名称=${it.skinName} \n " +
+      "物品=${it.skinPrefab} \n 类型=${it.skinType} \n 价格=${it.skinPrice} "
   }
 }

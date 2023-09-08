@@ -5,22 +5,45 @@
   android:orientation="vertical"
   android:background="@color/white">
 
+  <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:text="可解锁皮肤列表" />
+
   <androidx.recyclerview.widget.RecyclerView
     android:id="@+id/skin_list"
     android:layout_width="match_parent"
-    android:layout_height="300dp" />
+    android:layout_height="320dp"
+    android:layout_marginTop="30dp" />
 
 
   <EditText
     android:id="@+id/userid"
-    android:layout_width="wrap_content"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:layout_marginTop="30dp"
+    android:hint="输入赞助者科雷id" />
+
+
+  <EditText
+    android:id="@+id/price"
+    android:layout_width="200dp"
+    android:layout_height="50dp"
+    android:inputType="number"
+    android:layout_marginTop="10dp"
+    android:hint="输入赞助金额" />
+
+  <EditText
+    android:id="@+id/extra"
+    android:layout_width="200dp"
     android:layout_height="50dp"
     android:layout_marginTop="10dp"
-    android:hint="输入赞助者科雷id" />
+    android:hint="备注信息(可以不填)" />
 
   <Button
     android:id="@+id/unlock"
-    android:layout_width="wrap_content"
+    android:layout_width="200dp"
     android:layout_height="wrap_content"
     android:text="解锁" />
 

@@ -27,7 +27,7 @@ class DstLoginActivity : DstActivity() {
     return R.layout.dst_login_layout
   }
 
-  override fun onBizInit() {
+  override fun onBind() {
     val usernameView : EditText = findViewById(R.id.username)
     val pwdView : EditText = findViewById(R.id.password)
     val btn : View = findViewById(R.id.login)

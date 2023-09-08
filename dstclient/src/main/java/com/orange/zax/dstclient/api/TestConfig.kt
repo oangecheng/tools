@@ -9,7 +9,7 @@ class TestConfig {
     const val TAG = "DST"
 
     fun isTest(): Boolean {
-      return true
+      return false
     }
   }
 }
