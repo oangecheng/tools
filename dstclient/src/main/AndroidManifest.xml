@@ -14,7 +14,8 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.Tools" >
 
-    <activity android:name="com.orange.zax.dstclient.pages.DstLoginActivity">
+    <activity android:name="com.orange.zax.dstclient.pages.DstLoginActivity"
+      android:screenOrientation="portrait">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
 
@@ -22,10 +23,10 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".pages.DstHomeActivity"/>
-    <activity android:name=".pages.BuySkinActivity"/>
-    <activity android:name=".pages.ManageSkinActivity"/>
-    <activity android:name=".pages.UserActivity"/>
+    <activity android:name=".pages.DstHomeActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".pages.BuySkinActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".pages.ManageSkinActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".pages.UserActivity" android:screenOrientation="portrait"/>
   </application>
 
 

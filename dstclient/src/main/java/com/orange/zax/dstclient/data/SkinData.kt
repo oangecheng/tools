@@ -17,8 +17,9 @@ data class Skin(
   var isSelected = false
 
   override fun toString(): String {
-    return "Skin(skinId='$skinId', skinName='$skinName', isSelected=$isSelected)"
+    return "Skin(skinId='$skinId', skinName='$skinName', skinPrefab='$skinPrefab', skinType=$skinType, skinPrice=$skinPrice, isSelected=$isSelected)"
   }
+
 }
 
 

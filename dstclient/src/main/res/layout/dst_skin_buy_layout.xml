@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
@@ -8,43 +9,87 @@
   <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginStart="10dp"
+    android:textColor="#0000ff"
     android:text="可解锁皮肤列表" />
 
-  <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/skin_list"
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="320dp"
-    android:layout_marginTop="30dp" />
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
+    <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/skin_list"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:padding="10dp" />
 
-  <EditText
-    android:id="@+id/userid"
-    android:layout_width="200dp"
-    android:layout_height="50dp"
-    android:layout_marginTop="30dp"
-    android:hint="输入赞助者科雷id" />
+    <LinearLayout
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:layout_weight="1"
+      android:orientation="vertical">
 
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-  <EditText
-    android:id="@+id/price"
-    android:layout_width="200dp"
-    android:layout_height="50dp"
-    android:inputType="number"
-    android:layout_marginTop="10dp"
-    android:hint="输入赞助金额" />
+        <Button
+          android:id="@+id/query"
+          style="@style/DstBtnStyle"
+          android:layout_width="0dp"
+          android:layout_weight="2"
+          android:text="搜索" />
 
-  <EditText
-    android:id="@+id/extra"
-    android:layout_width="200dp"
-    android:layout_height="50dp"
-    android:layout_marginTop="10dp"
-    android:hint="备注信息(可以不填)" />
+        <EditText
+          android:id="@+id/query_info"
+          style="@style/DstEditText"
+          android:layout_width="0dp"
+          android:layout_weight="3"
+          android:layout_marginStart="5dp"
+          android:hint="输入物品名称" />
+      </LinearLayout>
 
-  <Button
-    android:id="@+id/unlock"
-    android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:text="解锁" />
+      <Button
+        android:id="@+id/select_all"
+        style="@style/DstBtnStyle"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:text="全选" />
 
+      <EditText
+        android:id="@+id/userid"
+        style="@style/DstEditText"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:hint="输入赞助者科雷id" />
+
+      <EditText
+        android:id="@+id/price"
+        style="@style/DstEditText"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:hint="输入赞助金额"
+        android:inputType="number" />
+
+      <EditText
+        android:id="@+id/extra"
+        style="@style/DstEditText"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:hint="备注信息(可以不填)" />
+
+      <Button
+        android:id="@+id/unlock"
+        style="@style/DstBtnStyle"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:background="#ff0000"
+        android:text="解锁" />
+    </LinearLayout>
+
+  </LinearLayout>
 </LinearLayout>

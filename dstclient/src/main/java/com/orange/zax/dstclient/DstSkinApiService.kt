@@ -63,7 +63,7 @@ interface DstSkinApiService {
     @Field("password") password: String,
     @Field("skinId") id: String,
     @Field("skinName") name: String,
-    @Field("skinPrefab") prefab: String,
+    @Field("prefab") prefab: String,
     @Field("skinType") type: Int,
     @Field("skinPrice") price : Int
   ): Observable<Response<ActionResponse>>

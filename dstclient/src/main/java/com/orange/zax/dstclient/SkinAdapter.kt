@@ -1,5 +1,6 @@
 package com.orange.zax.dstclient
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,8 +33,13 @@ class SkinAdapter : BaseRecyclerAdapter<Skin, ViewHolder>() {
 class ViewHolder(private val view : View) : RecyclerView.ViewHolder(view) {
   private val name = view.findViewById<TextView>(R.id.skin_name)
   private val check = view.findViewById<CheckBox>(R.id.skin_select)
+  private val price = view.findViewById<TextView>(R.id.skin_price)
 
+  @SuppressLint("SetTextI18n")
   fun bind(skin: Skin) {
+    check.isChecked = skin.isSelected
+    price.text = "${skin.skinPrice}￥"
+
     view.setOnClickListener {
       check.isChecked = !check.isChecked
       skin.isSelected = check.isChecked

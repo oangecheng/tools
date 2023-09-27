@@ -12,6 +12,16 @@ import android.content.Context
 class DstAlert {
 
   companion object {
+
+    fun alert(context: Context, title : CharSequence,  msg: String, cb: () -> Unit) {
+      AlertDialog.Builder(context)
+        .setTitle(title)
+        .setMessage(msg)
+        .setNegativeButton("取消") { _, _ -> }
+        .setPositiveButton("确定") { _, _ -> cb() }
+        .show()
+    }
+
     fun alert(context: Context, msg: String, cb: () -> Unit) {
       AlertDialog.Builder(context)
         .setMessage(msg)

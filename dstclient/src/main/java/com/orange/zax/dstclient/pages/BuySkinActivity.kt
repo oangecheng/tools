@@ -1,8 +1,11 @@
 package com.orange.zax.dstclient.pages
 
 
+import android.annotation.SuppressLint
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,6 +16,7 @@ import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ResponseFunction
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.data.Skin
 import com.orange.zax.dstclient.utils.DstAlert
 import com.orange.zax.dstclient.utils.ToastUtil
 import com.orange.zax.dstclient.utils.Utils
@@ -25,6 +29,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 class BuySkinActivity : DstActivity() {
 
   private val adapter = SkinAdapter()
+  private val skinList = ArrayList<Skin>()
 
   override fun getLayoutRes(): Int {
     return R.layout.dst_skin_buy_layout
@@ -35,6 +40,7 @@ class BuySkinActivity : DstActivity() {
     loadSkinPage()
   }
 
+  @SuppressLint("NotifyDataSetChanged")
   private fun initView() {
     val recyclerView = findViewById<RecyclerView>(R.id.skin_list)
     recyclerView.adapter = adapter
@@ -42,6 +48,38 @@ class BuySkinActivity : DstActivity() {
       orientation = RecyclerView.VERTICAL
     }
     bindBuyBtn()
+
+    val selectedAll = findViewById<Button>(R.id.select_all)
+    selectedAll.setOnClickListener {v->
+      v.isSelected = !v.isSelected
+
+      adapter.getList().forEach {
+        it.isSelected = v.isSelected
+      }
+      adapter.notifyDataSetChanged()
+
+      selectedAll.text = if (v.isSelected) {
+        "取消全选"
+      } else {
+        "选择全部"
+      }
+    }
+
+    val query = findViewById<Button>(R.id.query)
+    val queryInfo = findViewById<EditText>(R.id.query_info)
+    query.setOnClickListener { _ ->
+      val info = queryInfo.text.toString().trim()
+      adapter.clear()
+      if (TextUtils.isEmpty(info)) {
+        adapter.addAll(skinList)
+      } else {
+        skinList.filter {
+          TextUtils.equals(it.skinPrefab, info)
+        }.let {
+          adapter.addAll(it)
+        }
+      }
+    }
   }
 
   private fun bindBuyBtn() {
@@ -75,7 +113,8 @@ class BuySkinActivity : DstActivity() {
           }
         }
 
-        DstAlert.alert(this, "确定解锁皮肤？") {
+        val msg = TextUtils.join(",", unlockSkins.map { it.skinName })
+        DstAlert.alert(this, "确定解锁皮肤？", msg) {
           buySkin(userId, unlockSkins.map { it.skinId }, price, extra)
         }
       }
@@ -89,9 +128,10 @@ class BuySkinActivity : DstActivity() {
         .querySkinList(name, pwd)
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
-        .subscribe({
-          it.skins?.let { list ->
-            adapter.addAll(list)
+        .subscribe({ res ->
+          res.skins?.let { list ->
+            skinList.addAll(list)
+            adapter.setList(list)
           }
         }, {
           ErrorConsumer(this).accept(it)
