@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="@color/white"
@@ -7,24 +8,24 @@
   android:orientation="vertical">
 
   <Button
-    android:id="@+id/go_buy_skin"
+    android:id="@+id/dst_skin_unlock"
+    style="@style/DstBtnStyle"
     android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:paddingVertical="5dp"
-    android:text="解锁皮肤" />
+    android:text="@string/dst_skin_unlock" />
 
   <Button
-    android:id="@+id/go_register_skin"
+    android:id="@+id/dst_skin_manage"
+    style="@style/DstBtnStyle"
     android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:paddingVertical="5dp"
-    android:text="皮肤管理"
-    android:visibility="gone" />
+    android:layout_marginTop="10dp"
+    android:text="@string/dst_skin_manage"
+    android:visibility="gone"
+    tools:visibility="visible" />
 
   <Button
-    android:id="@+id/go_query_skin"
+    android:id="@+id/dst_skin_user"
+    style="@style/DstBtnStyle"
     android:layout_width="200dp"
-    android:layout_height="wrap_content"
-    android:paddingVertical="5dp"
-    android:text="查询用户数据" />
+    android:layout_marginTop="10dp"
+    android:text="@string/dst_skin_user" />
 </LinearLayout>

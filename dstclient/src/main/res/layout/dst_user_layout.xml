@@ -8,23 +8,21 @@
 
   <EditText
     android:id="@+id/skin_id"
-    android:layout_width="300dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
-    android:hint="皮肤id(不输入查询全部)" />
+    style="@style/DstEditText"
+    android:layout_width="200dp"
+    android:hint="@string/dst_skin_id_hint" />
 
   <EditText
     android:id="@+id/userid"
-    android:layout_width="300dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
-    android:hint="输入科雷id" />
+    style="@style/DstEditText"
+    android:layout_width="200dp"
+    android:layout_marginTop="10dp"
+    android:hint="@string/dst_userid_hint" />
 
   <Button
     android:id="@+id/query"
-    android:layout_width="300dp"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
-    android:paddingVertical="5dp"
-    android:text="查询用户皮肤" />
+    style="@style/DstBtnStyle"
+    android:layout_width="200dp"
+    android:layout_marginTop="10dp"
+    android:text="@string/dst_sure" />
 </LinearLayout>

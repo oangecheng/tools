@@ -1,3 +1,24 @@
 <resources>
-  <string name="app_name">dstclient</string>
+  <string name="app_name">建家党管理系统</string>
+  <string name="dst_login">登录</string>
+  <string name="dst_username_hint">输入用户名</string>
+  <string name="dst_password_hint">输入密码</string>
+  <string name="dst_search">搜索</string>
+  <string name="dst_prefab_name_hint">输入物品名称</string>
+  <string name="dst_userid_hint">输入科雷id</string>
+  <string name="dst_skin_id_hint">输入皮肤id</string>
+  <string name="dst_select_all">全选</string>
+  <string name="dst_sure">确定</string>
+
+
+  <string name="dst_skin_unlock">皮肤解锁</string>
+  <string name="dst_skin_manage">皮肤管理</string>
+  <string name="dst_skin_user">用户皮肤查询</string>
+
+  <string name="dst_skin_unlock_notice">可解锁皮肤列表</string>
+  <string name="dst_skin_unlock_price_hint">赞助金额</string>
+  <string name="dst_skin_unlock_extra_hint">备注信息(可不填)</string>
+  <string name="dst_skin_unlock_sure">解锁皮肤</string>
+
+
 </resources>

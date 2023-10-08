@@ -10,27 +10,26 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
-
     <EditText
       android:id="@+id/username"
       style="@style/DstEditText"
-      android:hint="输入用户名"
-      android:layout_width="200dp" />
-
+      android:layout_width="200dp"
+      android:autofillHints=""
+      android:hint="@string/dst_username_hint"
+      android:inputType="text" />
   </LinearLayout>
-
 
   <LinearLayout
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="10dp">
-
     <EditText
       android:id="@+id/password"
       style="@style/DstEditText"
       android:layout_width="200dp"
-      android:inputType="textPassword"
-      android:hint="输入密码" />
+      android:autofillHints=""
+      android:hint="@string/dst_password_hint"
+      android:inputType="textPassword" />
   </LinearLayout>
 
   <Button
@@ -38,6 +37,6 @@
     style="@style/DstBtnStyle"
     android:layout_width="200dp"
     android:layout_marginTop="30dp"
-    android:background="#ff0000"
-    android:text="登录" />
+    android:background="@drawable/dst_btn_bg_red"
+    android:text="@string/dst_login" />
 </LinearLayout>

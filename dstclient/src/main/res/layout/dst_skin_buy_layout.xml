@@ -4,27 +4,34 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
+  android:paddingHorizontal="10dp"
   android:background="@color/white">
-
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginStart="10dp"
-    android:textColor="#0000ff"
-    android:text="可解锁皮肤列表" />
 
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/skin_list"
+    <LinearLayout
       android:layout_width="0dp"
       android:layout_height="match_parent"
       android:layout_weight="1"
-      android:padding="10dp" />
+      android:orientation="vertical">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/dst_skin_unlock_notice"
+        android:textColor="#0000ff" />
+
+      <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/skin_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp" />
+    </LinearLayout>
 
     <LinearLayout
       android:layout_width="0dp"
@@ -36,13 +43,12 @@
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
         <Button
           android:id="@+id/query"
           style="@style/DstBtnStyle"
           android:layout_width="0dp"
           android:layout_weight="2"
-          android:text="搜索" />
+          android:text="@string/dst_search" />
 
         <EditText
           android:id="@+id/query_info"
@@ -50,7 +56,7 @@
           android:layout_width="0dp"
           android:layout_weight="3"
           android:layout_marginStart="5dp"
-          android:hint="输入物品名称" />
+          android:hint="@string/dst_prefab_name_hint" />
       </LinearLayout>
 
       <Button
@@ -58,21 +64,21 @@
         style="@style/DstBtnStyle"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:text="全选" />
+        android:text="@string/dst_select_all" />
 
       <EditText
         android:id="@+id/userid"
         style="@style/DstEditText"
         android:layout_width="match_parent"
         android:layout_marginTop="30dp"
-        android:hint="输入赞助者科雷id" />
+        android:hint="@string/dst_userid_hint" />
 
       <EditText
         android:id="@+id/price"
         style="@style/DstEditText"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:hint="输入赞助金额"
+        android:hint="@string/dst_skin_unlock_price_hint"
         android:inputType="number" />
 
       <EditText
@@ -80,16 +86,17 @@
         style="@style/DstEditText"
         android:layout_width="match_parent"
         android:layout_marginTop="10dp"
-        android:hint="备注信息(可以不填)" />
+        android:hint="@string/dst_skin_unlock_extra_hint" />
 
       <Button
         android:id="@+id/unlock"
         style="@style/DstBtnStyle"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
-        android:background="#ff0000"
-        android:text="解锁" />
+        android:background="@drawable/dst_btn_bg_red"
+        android:text="@string/dst_skin_unlock_sure" />
     </LinearLayout>
-
   </LinearLayout>
+
+
 </LinearLayout>

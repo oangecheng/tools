@@ -20,14 +20,14 @@ class DstHomeActivity : DstActivity() {
   }
 
   override fun onBind() {
-    findViewById<View>(R.id.go_buy_skin)
+    findViewById<View>(R.id.dst_skin_unlock)
       .onClickFilter {
         jump(BuySkinActivity::class.java)
       }
 
 
     val isMaster = TextUtils.equals("orange", AdminAccount.name())
-    findViewById<View>(R.id.go_register_skin)
+    findViewById<View>(R.id.dst_skin_manage)
       .also {
         it.visibility = if (isMaster) View.VISIBLE else View.GONE
       }
@@ -39,7 +39,7 @@ class DstHomeActivity : DstActivity() {
         }
       }
 
-    findViewById<View>(R.id.go_query_skin)
+    findViewById<View>(R.id.dst_skin_user)
       .onClickFilter {
         jump(UserActivity::class.java)
       }
