@@ -3,10 +3,11 @@ package com.orange.zax.dstclient.pages
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Spinner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.orange.zax.dstclient.DstSkinApiService
@@ -36,7 +37,6 @@ class BuySkinActivity : DstActivity() {
   }
 
   override fun onBind() {
-    initView()
     loadSkinPage()
   }
 
@@ -50,28 +50,35 @@ class BuySkinActivity : DstActivity() {
     bindBuyBtn()
 
     val selectedAll = findViewById<Button>(R.id.select_all)
-    selectedAll.setOnClickListener {v->
+    selectedAll.setOnClickListener { v ->
       v.isSelected = !v.isSelected
-
       adapter.getList().forEach {
         it.isSelected = v.isSelected
       }
       adapter.notifyDataSetChanged()
-
       selectedAll.text = if (v.isSelected) {
         "取消全选"
       } else {
         "选择全部"
       }
     }
+  }
 
+  private fun initSkinFilter(skins : List<Skin>) {
+    val selectAllText = "全部"
     val query = findViewById<Button>(R.id.query)
-    val queryInfo = findViewById<EditText>(R.id.query_info)
+    val querySpinner = findViewById<Spinner>(R.id.query_info)
+    val spinnerAdapter = ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item)
+    val data = skins.map { it.skinPrefab }.toSet().toList()
+    spinnerAdapter.add(selectAllText)
+    spinnerAdapter.addAll(data)
+    querySpinner.adapter = spinnerAdapter
+
     query.setOnClickListener { _ ->
-      val info = queryInfo.text.toString().trim()
+      val info = querySpinner.selectedItem
       adapter.clear()
-      if (TextUtils.isEmpty(info)) {
-        adapter.addAll(skinList)
+      if (info == null || TextUtils.equals(info as String, selectAllText)) {
+        adapter.addAll(skins)
       } else {
         skinList.filter {
           TextUtils.equals(it.skinPrefab, info)
@@ -132,6 +139,8 @@ class BuySkinActivity : DstActivity() {
           res.skins?.let { list ->
             skinList.addAll(list)
             adapter.setList(list)
+            initView()
+            initSkinFilter(skinList)
           }
         }, {
           ErrorConsumer(this).accept(it)

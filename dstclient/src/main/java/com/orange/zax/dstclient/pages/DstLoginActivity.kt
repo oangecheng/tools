@@ -33,8 +33,8 @@ class DstLoginActivity : DstActivity() {
     val btn : View = findViewById(R.id.login)
 
     btn.onClickFilter {
-      val name = if (isTest) "orange" else usernameView.text.toString()
-      val password = if (isTest) "940512" else pwdView.text.toString()
+      val name = if (isTest) "orange" else usernameView.text.toString().trim()
+      val password = if (isTest) "940512" else pwdView.text.toString().trim()
       if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(password)) {
         startLogin(name, password)
       } else {

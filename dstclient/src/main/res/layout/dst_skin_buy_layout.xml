@@ -43,20 +43,18 @@
       <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <Button
           android:id="@+id/query"
           style="@style/DstBtnStyle"
-          android:layout_width="0dp"
-          android:layout_weight="2"
+          android:layout_width="wrap_content"
           android:text="@string/dst_search" />
 
-        <EditText
+        <Spinner
           android:id="@+id/query_info"
           style="@style/DstEditText"
-          android:layout_width="0dp"
-          android:layout_weight="3"
-          android:layout_marginStart="5dp"
-          android:hint="@string/dst_prefab_name_hint" />
+          android:layout_width="match_parent"
+          android:layout_marginStart="5dp" />
       </LinearLayout>
 
       <Button
@@ -97,6 +95,5 @@
         android:text="@string/dst_skin_unlock_sure" />
     </LinearLayout>
   </LinearLayout>
-
 
 </LinearLayout>
