@@ -152,6 +152,7 @@ class BuySkinActivity : DstActivity() {
   }
 
 
+  @SuppressLint("NotifyDataSetChanged")
   private fun buySkin(userId: String, skinIds: List<String>, price : Int, extra : String?) {
     Utils.adminCheck { name, pwd ->
       val ids = TextUtils.join(",", skinIds)
@@ -159,6 +160,8 @@ class BuySkinActivity : DstActivity() {
         .unlockSkin(name, pwd, userId, ids, price, extra)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
+          adapter.getList().forEach { it.isSelected = false }
+          adapter.notifyDataSetChanged()
           ToastUtil.showShort("解锁成功!")
         }, {
           ErrorConsumer(this).accept(it)

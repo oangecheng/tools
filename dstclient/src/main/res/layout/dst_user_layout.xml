@@ -16,13 +16,13 @@
     android:id="@+id/userid"
     style="@style/DstEditText"
     android:layout_width="200dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="@dimen/dst_vertical_margin_small"
     android:hint="@string/dst_userid_hint" />
 
   <Button
     android:id="@+id/query"
     style="@style/DstBtnStyle"
     android:layout_width="200dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginTop="@dimen/dst_vertical_margin_small"
     android:text="@string/dst_sure" />
 </LinearLayout>

@@ -4,7 +4,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
-  android:paddingHorizontal="10dp"
+  android:paddingHorizontal="@dimen/dst_vertical_margin_small"
   android:background="@color/white">
 
   <LinearLayout
@@ -21,8 +21,8 @@
       <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="@dimen/dst_vertical_margin_small"
+        android:layout_marginTop="@dimen/dst_vertical_margin_small"
         android:text="@string/dst_skin_unlock_notice"
         android:textColor="#0000ff" />
 
@@ -30,13 +30,13 @@
         android:id="@+id/skin_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp" />
+        android:padding="@dimen/dst_vertical_margin_small" />
     </LinearLayout>
 
     <LinearLayout
       android:layout_width="0dp"
       android:layout_height="wrap_content"
-      android:layout_marginTop="10dp"
+      android:layout_marginTop="@dimen/dst_vertical_margin_small"
       android:layout_weight="1"
       android:orientation="vertical">
 
@@ -61,7 +61,7 @@
         android:id="@+id/select_all"
         style="@style/DstBtnStyle"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dst_vertical_margin_small"
         android:text="@string/dst_select_all" />
 
       <EditText
@@ -75,7 +75,7 @@
         android:id="@+id/price"
         style="@style/DstEditText"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dst_vertical_margin_small"
         android:hint="@string/dst_skin_unlock_price_hint"
         android:inputType="number" />
 
@@ -83,13 +83,13 @@
         android:id="@+id/extra"
         style="@style/DstEditText"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dst_vertical_margin_small"
         android:hint="@string/dst_skin_unlock_extra_hint" />
 
       <Button
         android:id="@+id/unlock"
         style="@style/DstBtnStyle"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/dst_vertical_margin_small"
         android:layout_width="match_parent"
         android:background="@drawable/dst_btn_bg_red"
         android:text="@string/dst_skin_unlock_sure" />
