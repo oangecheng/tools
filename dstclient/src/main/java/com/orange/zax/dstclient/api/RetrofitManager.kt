@@ -12,13 +12,15 @@ import javax.net.ssl.HostnameVerifier
  * Author: chengzhi@kuaishou.com
  */
 object RetrofitManager {
-  private const val BASE_URL = "https://43.138.31.203:8081/"
+  private const val PATH = "dst/admin/"
+  private const val BASE_URL = "https://www.orangezax.cn/"
   private const val TEST_URL = "https://172.23.56.60:8080/"
 
   private val httpClient by lazy {
     // 信任所有域名，因为没什么安全问题
     OkHttpClient.Builder()
       .hostnameVerifier(HostnameVerifier { _, _ -> true })
+      .addInterceptor(DstRequestInterceptor())
       .build()
   }
 
@@ -41,9 +43,9 @@ object RetrofitManager {
 
   private fun baseUrl(): String {
     return if (TestConfig.isTest()) {
-      TEST_URL
+      TEST_URL + PATH
     } else {
-      BASE_URL
+      BASE_URL + PATH
     }
   }
 }

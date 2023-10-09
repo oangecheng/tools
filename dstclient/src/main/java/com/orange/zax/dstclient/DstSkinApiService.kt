@@ -29,7 +29,7 @@ interface DstSkinApiService {
   }
 
   @FormUrlEncoded
-  @POST("/dst/admin/login")
+  @POST("login")
   fun login(
     @Field("username") username: String,
     @Field("password") password: String
@@ -37,10 +37,8 @@ interface DstSkinApiService {
 
 
   @FormUrlEncoded
-  @POST("/dst/admin/unlockskin")
+  @POST("unlockskin")
   fun unlockSkin(
-    @Field("username") username: String,
-    @Field("password") password: String,
     @Field("userId") userId : String,
     @Field("skinIds") skinIds : String,
     @Field("price") price: Int,
@@ -48,19 +46,13 @@ interface DstSkinApiService {
     ) : Observable<ActionResponse>
 
 
-  @FormUrlEncoded
-  @POST("/dst/admin/allskin")
-  fun querySkinList(
-    @Field("username") username: String,
-    @Field("password") password: String
-  ): Observable<Response<SkinListResponse>>
+  @POST("allskin")
+  fun querySkinList(): Observable<Response<SkinListResponse>>
 
 
   @FormUrlEncoded
-  @POST("/dst/admin/registerskin")
+  @POST("registerskin")
   fun registerSkin(
-    @Field("username") username: String,
-    @Field("password") password: String,
     @Field("skinId") id: String,
     @Field("skinName") name: String,
     @Field("prefab") prefab: String,
@@ -70,10 +62,8 @@ interface DstSkinApiService {
 
 
   @FormUrlEncoded
-  @POST("/dst/admin/updateskin")
+  @POST("updateskin")
   fun updateSkin(
-    @Field("username") username: String,
-    @Field("password") password: String,
     @Field("skinId") id: String,
     @Field("skinName") name: String,
     @Field("prefab") prefab: String,
@@ -82,28 +72,16 @@ interface DstSkinApiService {
   ): Observable<Response<ActionResponse>>
 
 
-
-  @GET("/dst/admin/alluser")
-  fun queryAllUser(
-    @Field("username") username: String,
-    @Field("password") password: String
-  ) : Observable<UserListResponse>
-
-
   @FormUrlEncoded
-  @POST("/dst/admin/user")
+  @POST("user")
   fun queryUserInfo(
-    @Field("username") username: String,
-    @Field("password") password: String,
     @Field("userId") id: String
   ): Observable<Response<User>>
 
 
   @FormUrlEncoded
-  @POST("dst/admin/giverole")
+  @POST("giverole")
   fun giveUserRole(
-    @Field("username") username: String,
-    @Field("password") password: String,
     @Field("userId") id: String,
     @Field("role") role : Int
   ) : Observable<ActionResponse>

@@ -24,4 +24,9 @@ object AdminAccount {
   fun isMaster() : Boolean {
     return TextUtils.equals(name(), "orange")
   }
+
+  fun clear() {
+    adminName = null
+    adminPwd = null
+  }
 }

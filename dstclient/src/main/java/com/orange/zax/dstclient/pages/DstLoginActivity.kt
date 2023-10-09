@@ -44,6 +44,7 @@ class DstLoginActivity : DstActivity() {
   }
 
   private fun startLogin(username: String, password: String) {
+    AdminAccount.clear()
     DstSkinApiService.get()
       .login(username, password)
       .map(ResponseFunction())

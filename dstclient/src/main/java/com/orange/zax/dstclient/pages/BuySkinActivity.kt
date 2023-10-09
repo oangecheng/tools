@@ -130,9 +130,9 @@ class BuySkinActivity : DstActivity() {
 
 
   private fun loadSkinPage() {
-    Utils.adminCheck { name, pwd ->
+    Utils.adminCheck { _, _ ->
       DstSkinApiService.get()
-        .querySkinList(name, pwd)
+        .querySkinList()
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ res ->
@@ -154,10 +154,10 @@ class BuySkinActivity : DstActivity() {
 
   @SuppressLint("NotifyDataSetChanged")
   private fun buySkin(userId: String, skinIds: List<String>, price : Int, extra : String?) {
-    Utils.adminCheck { name, pwd ->
+    Utils.adminCheck { _, _ ->
       val ids = TextUtils.join(",", skinIds)
       DstSkinApiService.get()
-        .unlockSkin(name, pwd, userId, ids, price, extra)
+        .unlockSkin(userId, ids, price, extra)
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
           adapter.getList().forEach { it.isSelected = false }

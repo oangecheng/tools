@@ -59,9 +59,9 @@ class ManageSkinActivity :DstActivity(){
   }
 
   private fun registerSkin(skin: Skin) {
-    Utils.adminCheck { name, pwd ->
+    Utils.adminCheck { _, _ ->
       DstSkinApiService.get()
-        .registerSkin(name, pwd, skin.skinId, skin.skinName, skin.skinPrefab, skin.skinType, skin.skinPrice)
+        .registerSkin(skin.skinId, skin.skinName, skin.skinPrefab, skin.skinType, skin.skinPrice)
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({
@@ -76,9 +76,9 @@ class ManageSkinActivity :DstActivity(){
   }
 
   private fun updateSkin(skin: Skin) {
-    Utils.adminCheck { name, pwd ->
+    Utils.adminCheck { _, _ ->
       DstSkinApiService.get()
-        .updateSkin(name, pwd, skin.skinId, skin.skinName, skin.skinPrefab, skin.skinType, skin.skinPrice)
+        .updateSkin(skin.skinId, skin.skinName, skin.skinPrefab, skin.skinType, skin.skinPrice)
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({

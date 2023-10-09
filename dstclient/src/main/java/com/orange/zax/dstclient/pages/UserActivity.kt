@@ -43,9 +43,9 @@ class UserActivity :DstActivity() {
   }
 
   private fun queryUserInfo(userId: String) {
-    Utils.adminCheck { name, pwd ->
+    Utils.adminCheck { _, _ ->
       DstSkinApiService.get()
-        .queryUserInfo(name, pwd, userId)
+        .queryUserInfo(userId)
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ user ->
@@ -87,11 +87,11 @@ class UserActivity :DstActivity() {
 
 
   private fun giveUserWhite(userId: String) {
-    Utils.adminCheck { name, pwd ->
+    Utils.adminCheck { _, _ ->
       val msg = "确定给予用户 $userId 白名单权限？"
       DstAlert.alert(this, msg) {
         DstSkinApiService.get()
-          .giveUserRole(name, pwd, userId, 1)
+          .giveUserRole(userId, 1)
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe({
                ToastUtil.showShort("给予权限成功")
