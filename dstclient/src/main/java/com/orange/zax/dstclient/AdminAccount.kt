@@ -1,5 +1,6 @@
 package com.orange.zax.dstclient
 
+import android.text.TextUtils
 import com.orange.zax.dstclient.utils.Utils
 
 /**
@@ -18,5 +19,9 @@ object AdminAccount {
 
   fun pwd() : String {
     return Utils.emptyIfNull(adminPwd)
+  }
+
+  fun isMaster() : Boolean {
+    return TextUtils.equals(name(), "orange")
   }
 }

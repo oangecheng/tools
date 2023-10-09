@@ -19,7 +19,7 @@ import retrofit2.http.POST
 interface DstSkinApiService {
 
   companion object {
-    val service by lazy {
+    private val service by lazy {
       RetrofitManager.create(DstSkinApiService::class.java)
     }
 
@@ -98,6 +98,15 @@ interface DstSkinApiService {
     @Field("userId") id: String
   ): Observable<Response<User>>
 
+
+  @FormUrlEncoded
+  @POST("dst/admin/giverole")
+  fun giveUserRole(
+    @Field("username") username: String,
+    @Field("password") password: String,
+    @Field("userId") id: String,
+    @Field("role") role : Int
+  ) : Observable<ActionResponse>
 
 
   @GET("/test")

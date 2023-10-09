@@ -16,4 +16,9 @@
     <item name="android:textSize">16dp</item>
   </style>
 
+
+  <style name="DstBtnStyleRed" parent="DstBtnStyle">
+    <item name="android:background">@drawable/dst_btn_bg_red</item>
+  </style>
+
 </resources>
