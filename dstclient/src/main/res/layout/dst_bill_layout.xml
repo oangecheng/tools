@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/white"
+  android:gravity="center"
+  android:orientation="vertical">
+
+  <Spinner
+    android:id="@+id/bill_date"
+    style="@style/DstEditText"
+    android:layout_width="@dimen/dst_btn_width_medium" />
+
+  <Button
+    android:id="@+id/query"
+    style="@style/DstBtnStyle"
+    android:layout_width="@dimen/dst_btn_width_medium"
+    android:layout_marginTop="@dimen/dst_vertical_margin_small"
+    android:text="@string/dst_query" />
+
+</LinearLayout>

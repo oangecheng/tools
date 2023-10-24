@@ -2,6 +2,7 @@ package com.orange.zax.dstclient.pages
 
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.text.TextUtils
 import android.view.View
 import android.widget.ArrayAdapter
@@ -22,6 +23,7 @@ import com.orange.zax.dstclient.utils.DstAlert
 import com.orange.zax.dstclient.utils.ToastUtil
 import com.orange.zax.dstclient.utils.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 /**
  * Time: 2023/9/5
@@ -31,6 +33,12 @@ class BuySkinActivity : DstActivity() {
 
   private val adapter = SkinAdapter()
   private val skinList = ArrayList<Skin>()
+  private var progressDialog : ProgressDialog? = null
+
+  private var userEditText: EditText? = null
+  private var priceEditText: EditText? = null
+  private var extraEditText: EditText? = null
+  private var unlockBtn : View? = null
 
   override fun getLayoutRes(): Int {
     return R.layout.dst_skin_buy_layout
@@ -90,13 +98,13 @@ class BuySkinActivity : DstActivity() {
   }
 
   private fun bindBuyBtn() {
-    val unlockBtn = findViewById<View>(R.id.unlock)
-    val userEditText = findViewById<EditText>(R.id.userid)
-    val priceView = findViewById<EditText>(R.id.price)
-    val extraView = findViewById<EditText>(R.id.extra)
+    unlockBtn = findViewById(R.id.unlock)
+    userEditText = findViewById(R.id.userid)
+    priceEditText = findViewById(R.id.price)
+    extraEditText = findViewById(R.id.extra)
 
-    unlockBtn.onClickFilter {
-      val userId = userEditText.text?.toString()?.trim() ?: ""
+    unlockBtn?.onClickFilter {
+      val userId = userEditText?.text?.toString()?.trim() ?: ""
       if (userId.length == 11) {
         val unlockSkins = adapter.getList()
           .filter { it.isSelected }
@@ -111,8 +119,8 @@ class BuySkinActivity : DstActivity() {
           priceExpect+=it.skinPrice
         }
 
-        val price = Utils.safeParseInt(priceView.text.toString())
-        val extra = extraView.text.toString()
+        val price = Utils.safeParseInt(priceEditText?.text.toString())
+        val extra = extraEditText?.text.toString()
         if (price != priceExpect) {
           if (TextUtils.isEmpty(extra)) {
             DstAlert.alert(this,"价格不符合预期，请填写备注!")
@@ -155,14 +163,24 @@ class BuySkinActivity : DstActivity() {
   @SuppressLint("NotifyDataSetChanged")
   private fun buySkin(userId: String, skinIds: List<String>, price : Int, extra : String?) {
     Utils.adminCheck { _, _ ->
+
+      unlockBtn?.isClickable = false
+      progressDialog?.dismiss()
+      progressDialog = ProgressDialog.show(this, "解锁皮肤中", "请稍后...")
+      progressDialog?.show()
+
       val ids = TextUtils.join(",", skinIds)
       DstSkinApiService.get()
         .unlockSkin(userId, ids, price, extra)
         .observeOn(AndroidSchedulers.mainThread())
+        .doFinally {
+          progressDialog?.dismiss()
+          resetEditView()
+        }
         .subscribe({
           adapter.getList().forEach { it.isSelected = false }
           adapter.notifyDataSetChanged()
-          ToastUtil.showShort("解锁成功!")
+          DstAlert.alert(this, "解锁成功!")
         }, {
           ErrorConsumer(this).accept(it)
         })
@@ -170,5 +188,12 @@ class BuySkinActivity : DstActivity() {
           autoDispose(it)
         }
     }
+  }
+
+  private fun resetEditView() {
+    userEditText?.text = null
+    priceEditText?.text = null
+    extraEditText?.text = null
+    unlockBtn?.isClickable = true
   }
 }

@@ -3,6 +3,7 @@ package com.orange.zax.dstclient
 import com.orange.zax.dstclient.api.ActionResponse
 import com.orange.zax.dstclient.api.Response
 import com.orange.zax.dstclient.api.RetrofitManager
+import com.orange.zax.dstclient.data.BillResponse
 import com.orange.zax.dstclient.data.SkinListResponse
 import com.orange.zax.dstclient.data.User
 import com.orange.zax.dstclient.data.UserListResponse
@@ -85,6 +86,11 @@ interface DstSkinApiService {
     @Field("userId") id: String,
     @Field("role") role : Int
   ) : Observable<ActionResponse>
+
+
+  @FormUrlEncoded
+  @POST("queryBill")
+  fun queryBill(@Field("days") days : Int) : Observable<Response<BillResponse>>
 
 
   @GET("/test")

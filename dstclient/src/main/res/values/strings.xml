@@ -17,6 +17,7 @@
   <string name="dst_skin_unlock">皮肤解锁</string>
   <string name="dst_skin_manage">皮肤管理</string>
   <string name="dst_skin_user">用户皮肤查询</string>
+  <string name="dst_skin_bill">账单查询</string>
   <string name="dst_skin_give_white_user">给予白名单</string>
 
   <string name="dst_skin_unlock_notice">可解锁皮肤列表</string>

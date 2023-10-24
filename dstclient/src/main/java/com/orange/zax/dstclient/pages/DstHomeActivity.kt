@@ -43,5 +43,10 @@ class DstHomeActivity : DstActivity() {
       .onClickFilter {
         jump(UserActivity::class.java)
       }
+
+    findViewById<View>(R.id.dst_skin_bill)
+      .onClickFilter {
+        jump(DstBillActivity::class.java)
+      }
   }
 }

@@ -40,6 +40,11 @@ data class SkinListResponse(
 }
 
 
+data class BillResponse(
+  @SerializedName("amount") val amount: Int
+)
+
+
 data class UserListResponse(
   @SerializedName("alluser") val users : List<User>
 )

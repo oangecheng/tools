@@ -14,7 +14,7 @@ import javax.net.ssl.HostnameVerifier
 object RetrofitManager {
   private const val PATH = "dst/admin/"
   private const val BASE_URL = "https://www.orangezax.cn/"
-  private const val TEST_URL = "https://172.23.56.60:8080/"
+  private const val TEST_URL = "https://172.16.80.65:8080/"
 
   private val httpClient by lazy {
     // 信任所有域名，因为没什么安全问题
