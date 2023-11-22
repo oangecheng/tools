@@ -1,5 +1,6 @@
 package com.orange.zax.dstclient.pages
 
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
@@ -27,7 +28,7 @@ class UserActivity :DstActivity() {
     return R.layout.dst_user_layout
   }
 
-  override fun onBind() {
+  override fun onBind(data: Bundle?) {
     val userIdView = findViewById<EditText>(R.id.userid)
     findViewById<View>(R.id.query).onClickFilter {
       queryUserInfo(Utils.emptyIfNull(userIdView.text.toString().trim()))

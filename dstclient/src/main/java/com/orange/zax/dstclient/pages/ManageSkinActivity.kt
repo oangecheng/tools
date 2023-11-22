@@ -1,5 +1,6 @@
 package com.orange.zax.dstclient.pages
 
+import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import com.orange.zax.dstclient.DstSkinApiService
@@ -30,7 +31,7 @@ class ManageSkinActivity :DstActivity(){
     return R.layout.dst_skin_manage_layout
   }
 
-  override fun onBind() {
+  override fun onBind(data: Bundle?) {
     skinIdView = findViewById(R.id.skin_id)
     skinNameView = findViewById(R.id.skin_name)
     skinPrefabView = findViewById(R.id.skin_prefab)

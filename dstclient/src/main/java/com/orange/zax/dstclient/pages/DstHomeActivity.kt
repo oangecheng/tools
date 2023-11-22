@@ -1,13 +1,16 @@
 package com.orange.zax.dstclient.pages
 
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import com.orange.zax.dstclient.AdminAccount
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.pages.BuySkinActivity.Companion.TYPE_CUSTOM
+import com.orange.zax.dstclient.pages.BuySkinActivity.Companion.TYPE_KEY
+import com.orange.zax.dstclient.pages.BuySkinActivity.Companion.TYPE_SPONSOR
 import com.orange.zax.dstclient.utils.DstAlert
-import com.orange.zax.dstclient.utils.Utils
 
 /**
  * Time: 2023/9/5
@@ -19,10 +22,22 @@ class DstHomeActivity : DstActivity() {
     return R.layout.dst_home_layout
   }
 
-  override fun onBind() {
+  override fun onBind(data: Bundle?) {
+
     findViewById<View>(R.id.dst_skin_unlock)
       .onClickFilter {
-        jump(BuySkinActivity::class.java)
+        val bundle = Bundle().also {
+          it.putInt(TYPE_KEY, TYPE_SPONSOR)
+        }
+        jump(BuySkinActivity::class.java, false, bundle)
+      }
+
+    findViewById<View>(R.id.dst_skin_custom_unlock)
+      .onClickFilter {
+        val bundle = Bundle().also {
+          it.putInt(TYPE_KEY, TYPE_CUSTOM)
+        }
+        jump(BuySkinActivity::class.java, false, bundle)
       }
 
 

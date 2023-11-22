@@ -1,5 +1,6 @@
 package com.orange.zax.dstclient.pages
 
+import android.os.Bundle
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.ArrayAdapter
@@ -31,7 +32,7 @@ class DstBillActivity : DstActivity() {
     return R.layout.dst_bill_layout
   }
 
-  override fun onBind() {
+  override fun onBind(data: Bundle?) {
     val spinner = findViewById<Spinner>(R.id.bill_date)
     val adapter = ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item)
     val dates = getDates(DAYS)

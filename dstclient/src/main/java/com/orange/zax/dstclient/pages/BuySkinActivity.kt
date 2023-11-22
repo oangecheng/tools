@@ -3,6 +3,7 @@ package com.orange.zax.dstclient.pages
 
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.ArrayAdapter
@@ -20,16 +21,20 @@ import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
 import com.orange.zax.dstclient.data.Skin
 import com.orange.zax.dstclient.utils.DstAlert
-import com.orange.zax.dstclient.utils.ToastUtil
 import com.orange.zax.dstclient.utils.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 /**
  * Time: 2023/9/5
  * Author: chengzhi@kuaishou.com
  */
 class BuySkinActivity : DstActivity() {
+
+  companion object {
+    const val TYPE_CUSTOM = 2
+    const val TYPE_SPONSOR = 3
+    const val TYPE_KEY = "SKIN_TYPE"
+  }
 
   private val adapter = SkinAdapter()
   private val skinList = ArrayList<Skin>()
@@ -44,8 +49,9 @@ class BuySkinActivity : DstActivity() {
     return R.layout.dst_skin_buy_layout
   }
 
-  override fun onBind() {
-    loadSkinPage()
+  override fun onBind(data: Bundle?) {
+    val skinType = data?.getInt(TYPE_KEY, TYPE_SPONSOR) ?: TYPE_SPONSOR
+    loadSkinPage(skinType)
   }
 
   @SuppressLint("NotifyDataSetChanged")
@@ -137,19 +143,22 @@ class BuySkinActivity : DstActivity() {
   }
 
 
-  private fun loadSkinPage() {
+  private fun loadSkinPage(skinType : Int) {
     Utils.adminCheck { _, _ ->
       DstSkinApiService.get()
         .querySkinList()
         .map(ResponseFunction())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ res ->
-          res.skins?.let { list ->
-            skinList.addAll(list)
-            adapter.setList(list)
-            initView()
-            initSkinFilter(skinList)
-          }
+          res.skins
+            ?.filter {
+              it.skinType == skinType
+            }?.let { list ->
+              skinList.addAll(list)
+              adapter.setList(list)
+              initView()
+              initSkinFilter(skinList)
+            }
         }, {
           ErrorConsumer(this).accept(it)
         })

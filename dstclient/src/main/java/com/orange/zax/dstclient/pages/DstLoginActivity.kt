@@ -1,5 +1,6 @@
 package com.orange.zax.dstclient.pages
 
+import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
@@ -27,7 +28,7 @@ class DstLoginActivity : DstActivity() {
     return R.layout.dst_login_layout
   }
 
-  override fun onBind() {
+  override fun onBind(data: Bundle?) {
     val usernameView : EditText = findViewById(R.id.username)
     val pwdView : EditText = findViewById(R.id.password)
     val btn : View = findViewById(R.id.login)
