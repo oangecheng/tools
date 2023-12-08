@@ -7,3 +7,4 @@ rootProject.name = "tools"
 include ':annotations:test-annotation'
 include ':annotations:test-compiler'
 include ':dstclient'
+include ':zax-viewcontroller'
