@@ -28,6 +28,7 @@
     <activity android:name=".pages.ManageSkinActivity" android:screenOrientation="portrait"/>
     <activity android:name=".pages.UserActivity" android:screenOrientation="portrait"/>
     <activity android:name=".pages.DstBillActivity" android:screenOrientation="portrait"/>
+    <activity android:name=".pages.DstHomepageActivity" android:screenOrientation="portrait"/>
   </application>
 
 

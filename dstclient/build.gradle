@@ -53,6 +53,9 @@ dependencies {
     implementation rootProject.ext.deps.rxjava
     implementation rootProject.ext.deps.rxandroid
 
+    implementation 'org.conscrypt:conscrypt-android:2.2.1'
+
+
     implementation project(':zax-base')
 
 

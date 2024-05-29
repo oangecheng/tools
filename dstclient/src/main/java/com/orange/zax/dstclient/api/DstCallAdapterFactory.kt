@@ -15,7 +15,7 @@ class DstCallAdapterFactory : CallAdapter.Factory() {
   private var lastTime = 0L
   companion object {
     // 请求间隔
-    private const val INTERVAL_LIMIT = 500L
+    private const val INTERVAL_LIMIT = 0L
   }
 
   override fun get(

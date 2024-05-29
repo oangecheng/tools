@@ -16,6 +16,8 @@ object RetrofitManager {
   private const val BASE_URL = "https://www.orangezax.cn/"
   private const val TEST_URL = "https://172.16.80.65:8080/"
 
+  private const val PAGE_PATH = "dst/hpy/page/"
+
   private val httpClient by lazy {
     // 信任所有域名，因为没什么安全问题
     OkHttpClient.Builder()
@@ -35,9 +37,25 @@ object RetrofitManager {
       .build()
   }
 
+  private val retrofit2 by lazy {
+    Retrofit.Builder()
+      .addCallAdapterFactory(DstCallAdapterFactory())
+      .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+      .addConverterFactory(GsonConverterFactory.create())
+      .callbackExecutor {  }
+      .baseUrl(BASE_URL + PAGE_PATH)
+      .client(httpClient)
+      .build()
+  }
+
 
   fun <T> create(service : Class<T>) : T {
     return retrofit.create(service)
+  }
+
+
+  fun <T> create2(service : Class<T>) : T {
+    return retrofit2.create(service)
   }
 
 

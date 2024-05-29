@@ -43,4 +43,12 @@
     android:layout_width="200dp"
     android:layout_marginTop="@dimen/dst_vertical_margin_small"
     android:text="@string/dst_skin_bill" />
+
+  <Button
+    android:id="@+id/dst_items"
+    style="@style/DstBtnStyle"
+    android:layout_width="200dp"
+    android:layout_marginTop="@dimen/dst_vertical_margin_small"
+    android:text="物品管理" />
+
 </LinearLayout>
