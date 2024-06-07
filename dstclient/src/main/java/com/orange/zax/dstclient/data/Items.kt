@@ -8,14 +8,37 @@ package com.orange.zax.dstclient.data
  */
 
 data class ItemInfo(
-  val id: String,
-  val name: String,
-  val desc: String,
-  val tabs: List<Int>,
-  val tech: Int,
-  val gain: String,
-  val recipes: List<Recipe>?
-)
+  var id: String,
+  var name: String,
+  var desc: String,
+  var tabs: MutableList<Int>,
+  var tech: Int,
+  var gain: String,
+  var recipes: MutableList<Recipe>?
+) {
+
+  companion object {
+    fun mock(): ItemInfo {
+      return ItemInfo(
+        "", "", "", ArrayList(), 1, "", ArrayList()
+      )
+    }
+
+    fun copy(from: ItemInfo, to : ItemInfo) {
+      to.id = from.id
+      to.name = from.name
+      to.desc = from.desc
+      to.tabs.clear()
+      to.tabs.addAll(from.tabs)
+
+      to.recipes?.clear()
+      from.recipes?.let { fromList->
+        val newList = fromList.map { Recipe(it.id, it.num) }
+        to.recipes?.addAll(newList)
+      }
+    }
+  }
+}
 
 
 data class Recipe(

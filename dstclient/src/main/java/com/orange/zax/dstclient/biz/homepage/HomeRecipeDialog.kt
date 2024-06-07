@@ -1,0 +1,186 @@
+package com.orange.zax.dstclient.biz.homepage
+
+import android.os.Bundle
+import android.text.Editable
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.DialogFragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.orange.zax.dstclient.R
+import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.data.Recipe
+import com.orange.zax.dstclient.data.getRecipeItems
+import com.orange.zax.dstclient.utils.TextWatcherAdapter
+import com.ustc.zax.base.recycler.BaseRecyclerAdapter
+import com.ustc.zax.base.utils.ViewUtil
+import java.text.Collator
+import java.util.Locale
+
+/**
+ * Time: 2024/5/30
+ * Author: chengzhi@kuaishou.com
+ *
+ * Desc:
+ */
+class HomeRecipeDialog : DialogFragment() {
+
+  companion object {
+    fun instance(data : List<Recipe>?, listener: Listener) : DialogFragment {
+      val dialog = HomeRecipeDialog()
+      dialog.listener = listener
+      dialog.data = data
+      return dialog
+    }
+  }
+
+  private lateinit var recipeListView: RecyclerView
+  private val adapter = RecipeAdapter()
+
+  private var listener : Listener? = null
+  private var data : List<Recipe>? = null
+
+
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?
+  ): View? {
+    return inflater.inflate(R.layout.dst_homepage_recipe, container, false)
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+    val window = dialog?.window
+    window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewUtil.dp2px(438f))
+    window?.setGravity(Gravity.CENTER)
+    window?.setBackgroundDrawableResource(R.drawable.dst_dialog_bg)
+
+    recipeListView = view.findViewById(R.id.recipe_list)
+    initListView(recipeListView)
+
+    view.findViewById<View>(R.id.recipe_sure).onClickFilter {
+      val list =  adapter.getList()
+        .filter { it.cnt > 0 }
+        .map { Recipe(it.id, it.cnt) }
+      listener?.onDismiss(list)
+      dismissAllowingStateLoss()
+    }
+  }
+
+
+  private fun initListView(view: RecyclerView) {
+    recipeListView.layoutManager = LinearLayoutManager(view.context)
+    recipeListView.adapter = adapter
+
+    //
+    val allItems = getRecipeItems().map {
+      RecipeData(it.key, it.value)
+    }
+
+    data?.forEach { recipe ->
+      allItems.firstOrNull {
+        it.id == recipe.id
+      }?.cnt = recipe.num
+    }
+
+    // 排序，数量不为0的放前面
+    val chinaCollator = Collator.getInstance(Locale.CHINESE)
+    val list = allItems.sortedWith(
+      compareByDescending<RecipeData> { it.cnt }.thenBy(chinaCollator) { it.name }
+    )
+    adapter.addAll(list)
+  }
+
+  interface Listener {
+    fun onDismiss(items : List<Recipe>)
+  }
+}
+
+
+private data class RecipeData(
+  val id : String,
+  val name : String,
+  var cnt: Int = 0
+)
+
+private class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+  private val name: TextView = view.findViewById(R.id.recipe_name)
+  private val num : EditText = view.findViewById(R.id.recipe_cnt)
+  private val icon : ImageView = view.findViewById(R.id.recipe_icon)
+  private val add : View = view.findViewById(R.id.recipe_add)
+  private val context = view.context
+
+  private var cache : RecipeData? = null
+  private var textWatcher = object : TextWatcherAdapter {
+    override fun afterTextChanged(s: Editable?) {
+      val str = s?.toString()
+      if (!str.isNullOrEmpty()) {
+        cache?.cnt = str.toInt()
+      } else {
+        cache?.cnt = 0
+      }
+    }
+  }
+
+  init {
+    num.addTextChangedListener(textWatcher)
+    add.onClickFilter {
+      val cnt = cache?.cnt ?: 0
+      cache?.cnt = cnt + 1
+      num.setText(cache?.cnt?.toString() ?: "")
+    }
+  }
+
+  fun bind(item: RecipeData) {
+    cache = item
+
+    Glide.with(context)
+      .load("file:///android_asset/icons/${item.id}.png")
+      .into(icon)
+    name.text = item.name
+    if (item.cnt > 0) {
+      num.setText(item.cnt.toString())
+    } else {
+      num.setText("")
+    }
+  }
+
+  fun unbind() {
+    Glide.with(context).clear(icon)
+    cache = null
+  }
+}
+
+
+private class RecipeAdapter : BaseRecyclerAdapter<RecipeData, RecipeViewHolder>() {
+
+  override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecipeViewHolder {
+    return RecipeViewHolder(
+      LayoutInflater
+        .from(p0.context)
+        .inflate(
+          R.layout.dst_homepage_recipe_item,
+          p0,
+          false
+        )
+    )
+  }
+
+  override fun onBindViewHolder(holder: RecipeViewHolder, position: Int) {
+    getItem(position)?.let {
+      holder.bind(it)
+    }
+  }
+
+  override fun onViewRecycled(holder: RecipeViewHolder) {
+    super.onViewRecycled(holder)
+    holder.unbind()
+  }
+}

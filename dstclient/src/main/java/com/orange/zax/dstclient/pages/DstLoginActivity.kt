@@ -2,25 +2,19 @@ package com.orange.zax.dstclient.pages
 
 import android.os.Bundle
 import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import android.widget.EditText
-import com.google.gson.Gson
 import com.orange.zax.dstclient.AdminAccount
 import com.orange.zax.dstclient.DstSkinApiService
-import com.orange.zax.dstclient.PageApiService
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ResponseFunction
 import com.orange.zax.dstclient.api.TestConfig
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
-import com.orange.zax.dstclient.data.ItemInfo
-import com.orange.zax.dstclient.data.Recipe
 import com.orange.zax.dstclient.utils.DstAlert
 import com.orange.zax.dstclient.utils.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
-import java.util.concurrent.TimeUnit
 
 /**
  * Time: 2023/9/1
@@ -35,42 +29,6 @@ class DstLoginActivity : DstActivity() {
   }
 
   override fun onBind(data: Bundle?) {
-
-    jump(DstHomepageActivity::class.java)
-
-//    val a = PageApiService.get().getAllItems()
-//      .observeOn(AndroidSchedulers.mainThread()).subscribe {
-//      Log.d("OrangeTest", it.toString())
-//    }
-//
-//    val item = ItemInfo(
-//      "zxlight",
-//      "永亮灯",
-//      "漂亮的小灯",
-//      listOf(1),
-//      2,
-//      "二本科技制作",
-//      listOf(
-//        Recipe(
-//          "cutstone",
-//          2
-//        )
-//      )
-//    )
-//
-//    val b = PageApiService.get().addItem(
-//      item.id,
-//      Gson().toJson(item)
-//    )
-//      .delay(10, TimeUnit.SECONDS)
-//      .observeOn(AndroidSchedulers.mainThread())
-//      .map(ResponseFunction())
-//      .subscribe( {
-//        Log.d("OrangeTest", it.toString())
-//      }, {
-//        Log.e("OrangeTest", "error", it)
-//      })
-
     val usernameView : EditText = findViewById(R.id.username)
     val pwdView : EditText = findViewById(R.id.password)
     val btn : View = findViewById(R.id.login)

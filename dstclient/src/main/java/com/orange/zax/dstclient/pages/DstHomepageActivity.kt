@@ -1,10 +1,16 @@
 package com.orange.zax.dstclient.pages
 
 import android.os.Bundle
+import android.text.Editable
+import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.TextView
 import com.google.gson.Gson
 import com.orange.zax.dstclient.PageApiService
 import com.orange.zax.dstclient.R
@@ -12,7 +18,13 @@ import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ResponseFunction
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.biz.homepage.HomeRecipeDialog
+import com.orange.zax.dstclient.biz.homepage.HomeTabSelectDialog
+import com.orange.zax.dstclient.biz.homepage.TABS
 import com.orange.zax.dstclient.data.ItemInfo
+import com.orange.zax.dstclient.data.Recipe
+import com.orange.zax.dstclient.data.getRecipeItems
+import com.orange.zax.dstclient.utils.TextWatcherAdapter
 import com.orange.zax.dstclient.utils.ToastUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 
@@ -42,11 +54,14 @@ class DstHomepageActivity : DstActivity() {
   private lateinit var etGain: EditText
   private lateinit var spTech: Spinner
   private lateinit var btnTab: Button
+  private lateinit var tvTab : TextView
   private lateinit var btnRecipe: Button
+  private lateinit var tvRecipe : TextView
   private lateinit var btnSearch: Button
   private lateinit var btnUpdate : Button
 
-  private var itemInfo : ItemInfo? = null
+  private var itemInfoFromServer : ItemInfo? = null
+  private val itemInfoCache = ItemInfo.mock()
 
   override fun getLayoutRes(): Int {
     return R.layout.dst_homepage_layout
@@ -62,19 +77,50 @@ class DstHomepageActivity : DstActivity() {
     etName = findViewById(R.id.input_name)
     etDesc = findViewById(R.id.input_desc)
     etGain = findViewById(R.id.input_gain)
+
+    etId.addTextChangedListener(object : TextWatcherAdapter {
+      override fun afterTextChanged(s: Editable?) {
+        itemInfoCache.id = s.toString().trim()
+      }
+    })
+
+    etName.addTextChangedListener(object: TextWatcherAdapter {
+      override fun afterTextChanged(s: Editable?) {
+        itemInfoCache.name = s.toString()
+      }
+    })
+
+    etDesc.addTextChangedListener(object: TextWatcherAdapter {
+      override fun afterTextChanged(s: Editable?) {
+        itemInfoCache.desc = s.toString()
+      }
+    })
+
+    etGain.addTextChangedListener(object: TextWatcherAdapter {
+      override fun afterTextChanged(s: Editable?) {
+        itemInfoCache.gain = s.toString()
+      }
+    })
+
     spTech = findViewById(R.id.spinner_tech)
     btnTab = findViewById(R.id.btn_tabs)
+    tvTab = findViewById(R.id.tv_tabs)
     btnRecipe = findViewById(R.id.btn_recipes)
+    tvRecipe = findViewById(R.id.tv_recipes)
     btnSearch = findViewById(R.id.btn_search)
     btnUpdate = findViewById(R.id.btn_update)
 
     val adapter = ArrayAdapter<Tech>(this, R.layout.support_simple_spinner_dropdown_item)
-    adapter.addAll(TECHS.map {
-      Tech(it.value, it.key)
-    }.sortedBy {
-      it.tech
-    })
+    val techs = TECHS.map { Tech(it.value, it.key) }.sortedBy { it.tech }
+    adapter.addAll(techs)
     spTech.adapter = adapter
+    spTech.onItemSelectedListener = object : OnItemSelectedListener {
+      override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        itemInfoCache.tech = techs[position].tech
+      }
+
+      override fun onNothingSelected(parent: AdapterView<*>?) {}
+    }
 
 
     btnSearch.onClickFilter {
@@ -86,12 +132,44 @@ class DstHomepageActivity : DstActivity() {
     }
 
     btnUpdate.onClickFilter { _ ->
-      val i = itemInfo
+      val i = itemInfoFromServer
       if (i != null) {
-        updateItem(i)
+        updateItem(itemInfoCache)
       } else {
-
+        addNewItem(itemInfoCache)
       }
+    }
+
+    btnTab.onClickFilter {
+      HomeTabSelectDialog.newInstance(
+        itemInfoCache.tabs,
+        object : HomeTabSelectDialog.Listener {
+          override fun onDismiss(tabs: List<Int>) {
+            itemInfoCache.tabs.clear()
+            itemInfoCache.tabs.addAll(tabs)
+            setTab(itemInfoCache.tabs)
+          }
+        }
+      ).show(
+        supportFragmentManager,
+        "sss"
+      )
+    }
+
+    btnRecipe.onClickFilter {
+      Log.d("orangeTest", "recipe click ${itemInfoCache.recipes}")
+      HomeRecipeDialog.instance(
+        itemInfoCache.recipes,
+        object : HomeRecipeDialog.Listener {
+          override fun onDismiss(items: List<Recipe>) {
+            itemInfoCache.recipes = items.toMutableList()
+            setRecipe(itemInfoCache.recipes)
+          }
+        }
+      ).show(
+        supportFragmentManager,
+        "ss"
+      )
     }
   }
 
@@ -107,8 +185,18 @@ class DstHomepageActivity : DstActivity() {
           etDesc.setText(it.desc)
           etGain.setText(it.gain)
           spTech.setSelection(it.tech - 1)
-          itemInfo = it
-        }, {
+
+          itemInfoFromServer = it
+
+          btnUpdate.text = "更新"
+
+          ItemInfo.copy(it, itemInfoCache)
+          setRecipe(itemInfoCache.recipes)
+          setTab(itemInfoCache.tabs)
+          Log.d("orangeTest", "$itemInfoCache")
+
+        },
+        {
           ErrorConsumer().accept(it)
         }
       ).also {
@@ -117,31 +205,63 @@ class DstHomepageActivity : DstActivity() {
   }
 
   private fun updateItem(itemInfo: ItemInfo) {
-    val name = getText(etName)
-    val desc = getText(etDesc)
-    val id = getText(etId)
-    val gain = getText(etGain)
-    val tech = (spTech.selectedItem as Tech).tech
-    val recipe = itemInfo.recipes
-    val tabs = itemInfo.tabs
-
-    PageApiService.get().updateItem(
-      id,
-      Gson().toJson(
-        ItemInfo(
-          id, name, desc, tabs, tech, gain, recipe
-        )
-      )
-    ).subscribe {
-      ToastUtil.showShort("更新成功")
-    }.also {
-      autoDispose(it)
+    if (!checkItem(itemInfo)) {
+      return
     }
-
+    PageApiService.get().updateItem(
+      itemInfo.id,
+      Gson().toJson(itemInfo)
+    )
+      .observeOn(AndroidSchedulers.mainThread())
+      .map(ResponseFunction())
+      .subscribe(
+        {
+          ToastUtil.showShort("更新成功")
+        },
+        {
+          ErrorConsumer().accept(it)
+        }
+      ).also {
+        autoDispose(it)
+      }
   }
 
-  private fun getText(et: EditText): String {
-    return et.text.toString().trim()
+  private fun addNewItem(itemInfo: ItemInfo) {
+    if (!checkItem(itemInfo)) {
+      return
+    }
+
+    PageApiService.get().addItem(
+      itemInfo.id,
+      Gson().toJson(itemInfo)
+    )
+      .observeOn(AndroidSchedulers.mainThread())
+      .map(ResponseFunction())
+      .subscribe(
+        {
+          ToastUtil.showShort("新增物品成功")
+        },
+        {
+          ErrorConsumer().accept(it)
+        }
+      ).also {
+        autoDispose(it)
+      }
+  }
+
+  private fun setTab(tabs : List<Int>?) {
+    tvTab.text = tabs?.map { TABS[it] }?.joinToString("|")
+  }
+
+  private val items = getRecipeItems()
+  private fun setRecipe(recipes: List<Recipe>?) {
+    tvRecipe.text = recipes?.map {
+     "${items[it.id]}x${it.num}"
+    }?.joinToString(" | ")
+  }
+
+  private fun checkItem(target : ItemInfo) : Boolean {
+    return target.id.isNotEmpty() && target.name.isNotEmpty()
   }
 }
 
@@ -154,16 +274,3 @@ private data class Tech(
   }
 }
 
-private data class RecipeItem(
-  val name: String,
-  val isMode : Boolean = false
-)
-
-
-private val RECIPE_DATA = mapOf(
-  "twigs" to RecipeItem("小树枝"),
-  "cutgrass" to RecipeItem("干草"),
-  "log" to RecipeItem("木头"),
-  "boards" to RecipeItem("木板"),
-  "rocks" to RecipeItem("石头")
-)

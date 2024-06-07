@@ -21,4 +21,10 @@
     <item name="android:background">@drawable/dst_btn_bg_red</item>
   </style>
 
+  <style name="DstDialogTitle">
+    <item name="android:textSize">20dp</item>
+    <item name="android:textColor">@color/black</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
 </resources>

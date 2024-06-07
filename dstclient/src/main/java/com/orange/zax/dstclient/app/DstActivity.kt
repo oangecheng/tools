@@ -1,9 +1,9 @@
 package com.orange.zax.dstclient.app
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.LayoutRes
+import androidx.fragment.app.FragmentActivity
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
@@ -11,7 +11,7 @@ import io.reactivex.disposables.Disposable
  * Time: 2023/9/7
  * Author: chengzhi@kuaishou.com
  */
-abstract class DstActivity : Activity() {
+abstract class DstActivity : FragmentActivity() {
 
   companion object {
     private const val BUNDLE_KEY = "DST_BUNDLE"
