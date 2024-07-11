@@ -12,6 +12,7 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import com.google.gson.Gson
+import com.orange.zax.dialogs.XInputDialog
 import com.orange.zax.dstclient.PageApiService
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ErrorConsumer
@@ -26,6 +27,7 @@ import com.orange.zax.dstclient.data.Recipe
 import com.orange.zax.dstclient.data.getRecipeItems
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
 import com.orange.zax.dstclient.utils.ToastUtil
+import com.ustc.zax.base.log.XLog
 import io.reactivex.android.schedulers.AndroidSchedulers
 
 /**
@@ -124,11 +126,17 @@ class DstHomepageActivity : DstActivity() {
 
 
     btnSearch.onClickFilter {
-      etId.text.toString().let {
-        if (it.isNotEmpty()) {
-          queryItem(it)
-        }
-      }
+//      etId.text.toString().let {
+//        if (it.isNotEmpty()) {
+//          queryItem(it)
+//        }
+//      }
+
+      XInputDialog.newInstance {
+        XLog.info("sss", it)
+      }.show(
+        supportFragmentManager, ""
+      )
     }
 
     btnUpdate.onClickFilter { _ ->

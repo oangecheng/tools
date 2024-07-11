@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.ustc.orange.annotation.ZaxLog;
+import com.ustc.zax.base.GlobalConfig;
 import com.ustc.zax.base.utils.ViewUtil;
 import com.ustc.zax.service.BizPresenter;
 import com.ustc.zax.service.example.LiveTestBizPresenter2;
@@ -16,8 +16,8 @@ import com.ustc.zax.service.example.LiveTestBizPresenter1;
 import com.ustc.zax.service.example.LiveTestBizService;
 import com.ustc.zax.service.manager.BizServiceCenter;
 import com.ustc.zax.tool.JsonUtils;
+import com.ustc.zax.tool.SystemUtils;
 
-@ZaxLog
 public class MainActivity extends AppCompatActivity {
 
   int width = ViewUtil.INSTANCE.dp2px(150);
@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
     JsonUtils utils = new JsonUtils();
 //    utils.test();
+
+    SystemUtils.INSTANCE.lunchApp(
+      this,
+      "https://autoriza-pagamento.caixa.gov.br/openbankingibc"
+    );
 
     testService();
 

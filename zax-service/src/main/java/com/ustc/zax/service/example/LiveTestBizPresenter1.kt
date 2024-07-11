@@ -14,11 +14,11 @@ class LiveTestBizPresenter1 : BizPresenter() {
 
   override fun onBind() {
     super.onBind()
-    getService(LiveTestBizService::class.java).getProxy()?.setBizProxy(
-      object : LiveTestBizService {
-        override fun show(name: String) {
-          Log.d("orangeInvoke", "我被替换了 $name")
-        }
-      })
+//    getService(LiveTestBizService::class.java).getProxy()?.setBizProxy(
+//      object : LiveTestBizService {
+//        override fun show(name: String) {
+//          Log.d("orangeInvoke", "我被替换了 $name")
+//        }
+//      })
   }
 }

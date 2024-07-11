@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <style name="Theme.Dialog.Translucent" parent="@android:style/Theme.Dialog">
+    <item name="android:windowFrame">@null</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowFullscreen">true</item>
+  </style>
+
+  <style name="DialogTitle">
+    <item name="android:textSize">@dimen/dialog_title_size</item>
+    <item name="android:textColor">@color/dialog_title</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
+  <style name="DialogBtnStyleRed">
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:textColor">#ffffff</item>
+    <item name="android:background">@drawable/dialog_btn_bg_red</item>
+    <item name="android:includeFontPadding">false</item>
+    <item name="android:textSize">16dp</item>
+  </style>
+
+</resources>

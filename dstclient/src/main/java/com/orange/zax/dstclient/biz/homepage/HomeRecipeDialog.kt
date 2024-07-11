@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.orange.zax.dialogs.XDialog
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.app.onClickFilter
 import com.orange.zax.dstclient.data.Recipe
@@ -29,7 +30,7 @@ import java.util.Locale
  *
  * Desc:
  */
-class HomeRecipeDialog : DialogFragment() {
+class HomeRecipeDialog : XDialog() {
 
   companion object {
     fun instance(data : List<Recipe>?, listener: Listener) : DialogFragment {
@@ -47,21 +48,16 @@ class HomeRecipeDialog : DialogFragment() {
   private var data : List<Recipe>? = null
 
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View? {
-    return inflater.inflate(R.layout.dst_homepage_recipe, container, false)
+  override fun getLayoutRes(): Int {
+    return R.layout.dst_homepage_recipe
+  }
+
+  override fun getTitle(): String {
+    return "选择配方"
   }
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    val window = dialog?.window
-    window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewUtil.dp2px(438f))
-    window?.setGravity(Gravity.CENTER)
-    window?.setBackgroundDrawableResource(R.drawable.dst_dialog_bg)
-
     recipeListView = view.findViewById(R.id.recipe_list)
     initListView(recipeListView)
 
