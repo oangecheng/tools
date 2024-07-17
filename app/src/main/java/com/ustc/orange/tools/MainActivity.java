@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -15,14 +17,25 @@ import com.ustc.zax.service.example.LiveBizScopes;
 import com.ustc.zax.service.example.LiveTestBizPresenter1;
 import com.ustc.zax.service.example.LiveTestBizService;
 import com.ustc.zax.service.manager.BizServiceCenter;
-import com.ustc.zax.tool.JsonUtils;
+import com.ustc.zax.tool.XJsonCompare;
 import com.ustc.zax.tool.SystemUtils;
 
 public class MainActivity extends AppCompatActivity {
 
   int width = ViewUtil.INSTANCE.dp2px(150);
 
+  private static final String JSON = "{\n" +
+    "  \"identifiers\" : [\n" +
+    "  \"br.com.gabba.Caixa\",\n" +
+    "  \"com.bradesco\",\n" +
+    "  \"com.itau\",\n" +
+    "  \"br.com.bb.android\",\n" +
+    "  \"com.santander.app\"\n" +
+    "  ]\n" +
+    "}\n";
+
   @Override
+  @SuppressWarnings("unchecked")
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
@@ -35,13 +48,27 @@ public class MainActivity extends AppCompatActivity {
 
     testFun(2);
 
-    JsonUtils utils = new JsonUtils();
-//    utils.test();
+    XJsonCompare utils = new XJsonCompare();
+   utils.test();
 
-    SystemUtils.INSTANCE.lunchApp(
+    SystemUtils.INSTANCE.checkInstalledApps(
       this,
-      "https://autoriza-pagamento.caixa.gov.br/openbankingibc"
-    );
+      JSON,
+      (result) -> {
+        result.getApps();
+        return null;
+      });
+
+    new Handler(Looper.getMainLooper()).postDelayed(
+      new Runnable() {
+        @Override
+        public void run() {
+          Intent intent = new Intent(Intent.ACTION_MAIN);
+          intent.addCategory(Intent.CATEGORY_HOME);
+          GlobalConfig.application.startActivity(intent);
+        }
+      }
+    , 3000);
 
     testService();
 

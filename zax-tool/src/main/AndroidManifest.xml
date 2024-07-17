@@ -5,6 +5,9 @@
 
   <queries>
     <package android:name="br.com.gabba.Caixa"/>
+    <package android:name="com.bradesco"/>
+    <package android:name="com.itau"/>
+    <package android:name="br.com.bb.android"/>
   </queries>
 
 </manifest>
