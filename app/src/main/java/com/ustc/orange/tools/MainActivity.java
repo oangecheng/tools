@@ -1,44 +1,37 @@
 package com.ustc.orange.tools;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 
-import com.ustc.zax.base.GlobalConfig;
+import com.ustc.orange.tools.test.XTestModel;
+import com.ustc.orange.tools.test.other.AppTestModel;
+import com.ustc.orange.tools.test.other.JsonTestModel;
+import com.ustc.orange.tools.test.service.ServiceTestModel;
 import com.ustc.zax.base.utils.ViewUtil;
-import com.ustc.zax.service.BizPresenter;
-import com.ustc.zax.service.example.LiveTestBizPresenter2;
-import com.ustc.zax.service.example.LiveBizScopes;
-import com.ustc.zax.service.example.LiveTestBizPresenter1;
-import com.ustc.zax.service.example.LiveTestBizService;
-import com.ustc.zax.service.manager.BizServiceCenter;
-import com.ustc.zax.tool.XJsonCompare;
-import com.ustc.zax.tool.SystemUtils;
+
 
 public class MainActivity extends AppCompatActivity {
 
   int width = ViewUtil.INSTANCE.dp2px(150);
 
-  private static final String JSON = "{\n" +
-    "  \"identifiers\" : [\n" +
-    "  \"br.com.gabba.Caixa\",\n" +
-    "  \"com.bradesco\",\n" +
-    "  \"com.itau\",\n" +
-    "  \"br.com.bb.android\",\n" +
-    "  \"com.santander.app\"\n" +
-    "  ]\n" +
-    "}\n";
+  private final List<XTestModel> mTestModels = new ArrayList<>();
 
   @Override
   @SuppressWarnings("unchecked")
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    mTestModels.add(new JsonTestModel());
+    mTestModels.add(new AppTestModel());
+    mTestModels.add(new ServiceTestModel());
 
     testFun(1);
     findViewById(R.id.title).setOnClickListener(v -> {
@@ -48,49 +41,18 @@ public class MainActivity extends AppCompatActivity {
 
     testFun(2);
 
-    XJsonCompare utils = new XJsonCompare();
-   utils.test();
-
-    SystemUtils.INSTANCE.checkInstalledApps(
-      this,
-      JSON,
-      (result) -> {
-        result.getApps();
-        return null;
-      });
-
-    new Handler(Looper.getMainLooper()).postDelayed(
-      new Runnable() {
-        @Override
-        public void run() {
-          Intent intent = new Intent(Intent.ACTION_MAIN);
-          intent.addCategory(Intent.CATEGORY_HOME);
-          GlobalConfig.application.startActivity(intent);
-        }
-      }
-    , 3000);
-
-    testService();
-
+    for(XTestModel model : mTestModels) {
+      model.onStart(this);
+    }
   }
 
-  private void testService() {
-    BizPresenter presenter = new BizPresenter() {
-      @Override
-      public int scope() {
-        return LiveBizScopes.BASE;
-      }
-    };
-    BizServiceCenter center = new BizServiceCenter();
-    center.register(LiveTestBizService.class, new LiveTestBizService() {});
-
-    presenter.addPresenter(new LiveTestBizPresenter1());
-    presenter.addPresenter(new LiveTestBizPresenter2());
-    presenter.create(center);
-    presenter.bind();
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    for(XTestModel model : mTestModels) {
+      model.onStop();
+    }
   }
-
-
 
   private void testFun(int a) {
     View add = findViewById(R.id.add);

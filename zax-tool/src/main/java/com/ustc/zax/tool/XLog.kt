@@ -45,7 +45,7 @@ class XLog {
 
     }
 
-    fun d(subTag : String, msg : String, vararg data : Pair<String, Any>) {
+    fun d(subTag : String, msg : String, vararg data : Pair<String, Any?>) {
       Log.d("$TAG $subTag", "$msg ${parseData(*data)}")
     }
 
@@ -53,7 +53,7 @@ class XLog {
       Log.e("$TAG $subTag", "$msg ${parseData(*data)}", e)
     }
 
-    private fun parseData(vararg data : Pair<String, Any>) : String {
+    private fun parseData(vararg data : Pair<String, Any?>) : String {
       return if (data.isNotEmpty()) {
         data.joinToString(" | ") {
           "${it.first}=${it.second}"

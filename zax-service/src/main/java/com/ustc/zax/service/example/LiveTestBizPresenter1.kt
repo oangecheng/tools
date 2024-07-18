@@ -14,6 +14,7 @@ class LiveTestBizPresenter1 : BizPresenter() {
 
   override fun onBind() {
     super.onBind()
+    getService(LiveTestBizService::class.java)
 //    getService(LiveTestBizService::class.java).getProxy()?.setBizProxy(
 //      object : LiveTestBizService {
 //        override fun show(name: String) {
