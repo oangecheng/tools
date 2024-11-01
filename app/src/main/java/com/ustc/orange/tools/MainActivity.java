@@ -6,15 +6,26 @@ import java.util.List;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.ustc.orange.tools.test.XBroadcastTest;
 import com.ustc.orange.tools.test.XTestModel;
 import com.ustc.orange.tools.test.other.AppTestModel;
 import com.ustc.orange.tools.test.other.JsonTestModel;
 import com.ustc.orange.tools.test.service.ServiceTestModel;
 import com.ustc.zax.base.utils.ViewUtil;
+import com.ustc.zax.view.spans.GradientColorSpan;
+import com.ustc.zax.view.spans.GradientTextSpan;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -32,12 +43,28 @@ public class MainActivity extends AppCompatActivity {
     mTestModels.add(new JsonTestModel());
     mTestModels.add(new AppTestModel());
     mTestModels.add(new ServiceTestModel());
+    mTestModels.add(new XBroadcastTest());
 
     testFun(1);
     findViewById(R.id.title).setOnClickListener(v -> {
       Intent intent = new Intent(this, ZaxViewActivity.class);
       this.startActivity(intent);
     });
+
+    SpannableStringBuilder builder = new SpannableStringBuilder("aiudnaiounwd");
+    builder.append("123\n ssssssss4", new GradientColorSpan("123sssssss", Color.RED, Color.BLUE), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    ((TextView)findViewById(R.id.title)).setText(builder);
+
+    ImageView image = ((ImageView)findViewById(R.id.image_test));
+
+    Bitmap bitmap = new GradientTextSpan().create("哈哈哈哈");
+//    image.getLayoutParams().width = bitmap.getWidth();
+//    image.getLayoutParams().height = bitmap.getHeight();
+    Log.d("orangeLog", "onCreate: bitmap" + bitmap.getWidth());
+    BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+
+    drawable.setTargetDensity(getResources().getDisplayMetrics());
+    image.setImageDrawable(drawable);
 
     testFun(2);
 
