@@ -50,4 +50,5 @@ dependencies {
     implementation project(':zax-view')
     implementation project(':zax-tool')
     implementation project(':zax-service')
+    implementation project(':viewcontrolller')
 }

@@ -137,13 +137,13 @@
     android:visibility="visible"
     android:text="Hello World!" />
 
-  <androidx.appcompat.widget.AppCompatButton
-    android:id="@+id/add"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="增加宽度" />
+    <androidx.appcompat.widget.AppCompatButton
+      android:id="@+id/add"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="增加宽度" />
 
-  <androidx.appcompat.widget.AppCompatButton
+    <androidx.appcompat.widget.AppCompatButton
     android:id="@+id/reduce"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -151,6 +151,16 @@
     android:text="减少宽度" />
 
   </FrameLayout>
+
+
+  <androidx.appcompat.widget.AppCompatSpinner
+    android:id="@+id/jump"
+    android:background="@color/white"
+    android:layout_width="150dp"
+    android:layout_height="50dp"
+    android:layout_gravity="end"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp" />
 
 
   <LinearLayout

@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ustc.orange.tools.pages.XJump;
 import com.ustc.orange.tools.test.XBroadcastTest;
 import com.ustc.orange.tools.test.XTestModel;
 import com.ustc.orange.tools.test.other.AppTestModel;
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
+    mTestModels.add(new XJump(this));
     mTestModels.add(new JsonTestModel());
     mTestModels.add(new AppTestModel());
     mTestModels.add(new ServiceTestModel());
@@ -50,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
       Intent intent = new Intent(this, ZaxViewActivity.class);
       this.startActivity(intent);
     });
+
 
     SpannableStringBuilder builder = new SpannableStringBuilder("aiudnaiounwd");
     builder.append("123\n ssssssss4", new GradientColorSpan("123sssssss", Color.RED, Color.BLUE), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

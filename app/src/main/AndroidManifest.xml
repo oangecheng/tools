@@ -22,6 +22,8 @@
     </activity>
 
     <activity android:name=".ZaxViewActivity"/>
+    <activity android:name=".pages.vc.XViewCTActivity"/>
+
 
   </application>
 
