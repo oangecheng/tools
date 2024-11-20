@@ -19,7 +19,7 @@ import java.lang.IllegalStateException
  */
 class FragmentViewControllerHostFragment: Fragment() {
   companion object {
-    const val TAG = "com.kuaishou.live.ext.FragmentViewControllerHostFragment"
+    const val TAG = "FragmentViewControllerHostFragment"
   }
 
   lateinit var controllerManager : ViewControllerManagerImpl
