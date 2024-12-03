@@ -1,4 +1,4 @@
-package com.orange.zax.dstclient.data
+package com.orange.zax.dstclient.biz.homepage
 
 /**
  * Time: 2024/6/7

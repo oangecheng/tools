@@ -7,6 +7,7 @@ import com.orange.zax.dstclient.AdminAccount
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.biz.homepage.DstHomepageActivity
 import com.orange.zax.dstclient.pages.BuySkinActivity.Companion.TYPE_CUSTOM
 import com.orange.zax.dstclient.pages.BuySkinActivity.Companion.TYPE_KEY
 import com.orange.zax.dstclient.pages.BuySkinActivity.Companion.TYPE_SPONSOR

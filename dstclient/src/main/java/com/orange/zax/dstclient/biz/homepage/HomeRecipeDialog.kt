@@ -2,7 +2,6 @@ package com.orange.zax.dstclient.biz.homepage
 
 import android.os.Bundle
 import android.text.Editable
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +15,8 @@ import com.bumptech.glide.Glide
 import com.orange.zax.dialogs.XDialog
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.app.onClickFilter
-import com.orange.zax.dstclient.data.Recipe
-import com.orange.zax.dstclient.data.getRecipeItems
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
 import com.ustc.zax.base.recycler.BaseRecyclerAdapter
-import com.ustc.zax.base.utils.ViewUtil
 import java.text.Collator
 import java.util.Locale
 
@@ -64,7 +60,7 @@ class HomeRecipeDialog : XDialog() {
     view.findViewById<View>(R.id.recipe_sure).onClickFilter {
       val list =  adapter.getList()
         .filter { it.cnt > 0 }
-        .map { Recipe(it.id, it.cnt) }
+        .map { Recipe(it.id, it.cnt, it.url) }
       listener?.onDismiss(list)
       dismissAllowingStateLoss()
     }
@@ -101,9 +97,10 @@ class HomeRecipeDialog : XDialog() {
 
 
 private data class RecipeData(
-  val id : String,
-  val name : String,
-  var cnt: Int = 0
+  val id: String,
+  val name: String,
+  var cnt: Int = 0,
+  var url: String? = null
 )
 
 private class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {

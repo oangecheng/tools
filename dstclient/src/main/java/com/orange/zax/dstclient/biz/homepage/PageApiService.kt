@@ -1,10 +1,8 @@
-package com.orange.zax.dstclient
+package com.orange.zax.dstclient.biz.homepage
 
 import com.orange.zax.dstclient.api.ActionResponse
 import com.orange.zax.dstclient.api.Response
 import com.orange.zax.dstclient.api.RetrofitManager
-import com.orange.zax.dstclient.data.ItemInfo
-import com.orange.zax.dstclient.data.ItemResponse
 import io.reactivex.Observable
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

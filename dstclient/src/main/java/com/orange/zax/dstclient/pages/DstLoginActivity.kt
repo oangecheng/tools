@@ -12,6 +12,7 @@ import com.orange.zax.dstclient.api.ResponseFunction
 import com.orange.zax.dstclient.api.TestConfig
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.biz.homepage.DstHomepageActivity
 import com.orange.zax.dstclient.utils.DstAlert
 import com.orange.zax.dstclient.utils.Utils
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,6 +31,8 @@ class DstLoginActivity : DstActivity() {
 
   override fun onBind(data: Bundle?) {
 
+    AdminAccount.adminName = "orange"
+    AdminAccount.adminPwd = "940512"
     jump(DstHomepageActivity::class.java)
 
     val usernameView : EditText = findViewById(R.id.username)
