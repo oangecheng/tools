@@ -11,6 +11,7 @@ import com.google.gson.Gson
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ResponseFunction
+import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -63,6 +64,7 @@ class PageUpdate : PageBase() {
     return PageApiService.get()
       .queryItem(id)
       .map(ResponseFunction())
+      .filter { it.type == ItemType.NORMAL }
       .map { Gson().fromJson(it.data, ItemData::class.java) }
       .observeOn(AndroidSchedulers.mainThread())
       .doOnError(ErrorConsumer())
@@ -78,7 +80,7 @@ class PageUpdate : PageBase() {
 
   private fun updateItem(data: ItemData): Disposable {
     return PageApiService.get()
-      .updateItem(data.id, Gson().toJson(data))
+      .updateItem(data.id, Gson().toJson(data), ItemType.NORMAL)
       .observeOn(AndroidSchedulers.mainThread())
       .map(ResponseFunction())
       .doOnError(ErrorConsumer())

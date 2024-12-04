@@ -30,6 +30,9 @@ interface PageApiService {
   @GET("items/all")
   fun getAllItems(): Observable<Response<ItemResponse>>
 
+  @FormUrlEncoded
+  @POST("typeitems")
+  fun typeItems(@Field("type") type : Int): Observable<Response<ItemResponse>>
 
   @FormUrlEncoded
   @POST("items/search")
@@ -39,11 +42,15 @@ interface PageApiService {
   @POST("items/add")
   fun addItem(
     @Field("id") id: String,
-    @Field("data") data: String
+    @Field("data") data: String,
+    @Field("type") type: Int
   ): Observable<Response<ActionResponse>>
 
   @FormUrlEncoded
   @POST("items/update")
-  fun updateItem(@Field("id") id: String, @Field("data") data: String):
-    Observable<Response<ActionResponse>>
+  fun updateItem(
+    @Field("id") id: String,
+    @Field("data") data: String,
+    @Field("type") type: Int
+  ): Observable<Response<ActionResponse>>
 }

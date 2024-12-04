@@ -131,18 +131,28 @@ open class PageBase : BaseFragment() {
     }
 
     btnRecipe.onClickFilter {
-      HomeRecipeDialog.instance(
-        itemInfoCache.recipes,
-        object : HomeRecipeDialog.Listener {
-          override fun onDismiss(items: List<Recipe>) {
-            itemInfoCache.recipes = items.toMutableList()
-            setRecipe(itemInfoCache.recipes)
-          }
+      PageImage.items().subscribe(
+        {
+          HomeRecipeDialog.instance(
+            itemInfoCache.recipes,
+            it,
+            object : HomeRecipeDialog.Listener {
+              override fun onDismiss(items: List<Recipe>) {
+                itemInfoCache.recipes = items.toMutableList()
+                setRecipe(itemInfoCache.recipes)
+              }
+            }
+          ).show(
+            childFragmentManager,
+            "ss"
+          )
+        }, {
+
         }
-      ).show(
-        childFragmentManager,
-        "ss"
-      )
+      ).also {
+        autoDispose(it)
+      }
+
     }
 
 

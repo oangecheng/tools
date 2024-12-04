@@ -5,10 +5,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.collection.ArraySet
 import com.orange.zax.dstclient.R
+import com.orange.zax.dstclient.api.ErrorConsumer
+import com.orange.zax.dstclient.api.ResponseFunction
+import com.orange.zax.dstclient.api.XGson
+import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.biz.homepage.data.Prefab
-import com.orange.zax.dstclient.biz.homepage.data.XSp
+import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 
 /**
  * Time: 2024/12/3
@@ -19,10 +27,35 @@ import com.ustc.zax.base.fragment.BaseFragment
 class PageImage : BaseFragment() {
 
   companion object {
-    private const val KEY = "PREFABS"
+
+    private val ITEMS = ArraySet<Prefab>()
 
     fun instance() : BaseFragment {
       return PageImage()
+    }
+
+    fun items(): Observable<ArraySet<Prefab>>{
+      if (ITEMS.isEmpty()) {
+        return PageApiService.get()
+          .typeItems(ItemType.RECIPE)
+          .map(ResponseFunction())
+          .map { resp ->
+            resp.items.map {
+              XGson.parse(it.data, Prefab::class.java) ?: Prefab("", "", "")
+            }.filter {
+              it.id.isNotEmpty()
+            }
+          }
+          .observeOn(AndroidSchedulers.mainThread())
+          .doOnNext {
+            ITEMS.clear()
+            ITEMS.addAll(it)
+          }.map {
+            ITEMS
+          }
+      }
+      return Observable.just(ITEMS)
+        .observeOn(AndroidSchedulers.mainThread())
     }
   }
 
@@ -51,8 +84,24 @@ class PageImage : BaseFragment() {
       val id = vId.text.toString().trim()
       val name = vName.text.toString().trim()
       val url = vUrl.text.toString().trim()
-      XSp.addPrefab(Prefab(id, name, url))
+      if (id.isNotEmpty() && name.isNotEmpty() && url.isNotEmpty()) {
+        addPrefab(Prefab(id, name, url))
+      }
     }
+  }
+
+
+  private fun addPrefab(prefab: Prefab) : Disposable {
+    val data = XGson.GSON.toJson(prefab)
+    return PageApiService.get()
+      .addItem(prefab.id, data, ItemType.RECIPE)
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe({
+        ToastUtil.showLong("添加成功")
+        ITEMS.add(prefab)
+      }, {
+        ErrorConsumer().accept(it)
+      })
   }
 
 }

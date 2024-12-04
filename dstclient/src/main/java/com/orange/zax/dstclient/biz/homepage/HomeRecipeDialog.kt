@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.collection.ArraySet
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,7 @@ import com.orange.zax.dialogs.XDialog
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.XGson
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.biz.homepage.data.Prefab
 import com.orange.zax.dstclient.biz.homepage.data.Prefabs
 import com.orange.zax.dstclient.biz.homepage.data.XSp
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
@@ -32,10 +34,11 @@ import java.util.Locale
 class HomeRecipeDialog : XDialog() {
 
   companion object {
-    fun instance(data : List<Recipe>?, listener: Listener) : DialogFragment {
+    fun instance(data : List<Recipe>?, prefabs: Set<Prefab>, listener: Listener) : DialogFragment {
       val dialog = HomeRecipeDialog()
       dialog.listener = listener
       dialog.data = data
+      dialog.prefabs.addAll(prefabs)
       return dialog
     }
   }
@@ -45,6 +48,7 @@ class HomeRecipeDialog : XDialog() {
 
   private var listener : Listener? = null
   private var data : List<Recipe>? = null
+  private var prefabs = ArraySet<Prefab>()
 
 
   override fun getLayoutRes(): Int {
@@ -74,9 +78,8 @@ class HomeRecipeDialog : XDialog() {
     recipeListView.layoutManager = LinearLayoutManager(view.context)
     recipeListView.adapter = adapter
 
-    val datas = XSp.getPrefabs()
-    val allItems = datas.map {
-      RecipeData(it.key, it.value.name, 0, it.value.url)
+    val allItems = prefabs.map {
+      RecipeData(it.id, it.name, 0, it.url)
     }
 
     data?.forEach { recipe ->

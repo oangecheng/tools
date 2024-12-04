@@ -12,8 +12,10 @@ import com.google.gson.annotations.SerializedName
 data class ItemInfo(
   @SerializedName("id")
   var id: String,
+  @SerializedName("type")
+  val type: Int,
   @SerializedName("data")
-  val data : String
+  val data: String
 )
 
 
@@ -68,6 +70,6 @@ data class Recipe(
 )
 
 data class ItemResponse(
-  @SerializedName("items")
+  @SerializedName("pageData")
   val items : List<ItemInfo>
 )

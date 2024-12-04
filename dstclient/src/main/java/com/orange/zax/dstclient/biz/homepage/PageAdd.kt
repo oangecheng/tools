@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ResponseFunction
+import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -50,7 +51,7 @@ class PageAdd private constructor() : PageBase() {
 
   private fun addNewItem(data: ItemData): Disposable {
     return PageApiService.get()
-      .addItem(data.id, Gson().toJson(data))
+      .addItem(data.id, Gson().toJson(data), ItemType.NORMAL)
       .observeOn(AndroidSchedulers.mainThread())
       .map(ResponseFunction())
       .subscribe({
