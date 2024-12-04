@@ -30,11 +30,6 @@ class DstLoginActivity : DstActivity() {
   }
 
   override fun onBind(data: Bundle?) {
-
-    AdminAccount.adminName = "orange"
-    AdminAccount.adminPwd = "940512"
-    jump(DstHomepageActivity::class.java)
-
     val usernameView : EditText = findViewById(R.id.username)
     val pwdView : EditText = findViewById(R.id.password)
     val btn : View = findViewById(R.id.login)

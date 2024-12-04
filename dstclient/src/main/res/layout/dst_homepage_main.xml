@@ -26,10 +26,10 @@
     android:text="更新物品" />
 
   <Button
-    android:id="@+id/search"
+    android:id="@+id/prefab"
     style="@style/DstBtnStyle"
     android:layout_width="@dimen/dst_btn_width_medium"
     android:layout_marginTop="@dimen/dst_vertical_margin_small"
-    android:text="查询物品" />
+    android:text="新增预制物" />
 
 </LinearLayout>

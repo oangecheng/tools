@@ -14,7 +14,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.orange.zax.dialogs.XDialog
 import com.orange.zax.dstclient.R
+import com.orange.zax.dstclient.api.XGson
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.biz.homepage.data.Prefabs
+import com.orange.zax.dstclient.biz.homepage.data.XSp
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
 import com.ustc.zax.base.recycler.BaseRecyclerAdapter
 import java.text.Collator
@@ -71,9 +74,9 @@ class HomeRecipeDialog : XDialog() {
     recipeListView.layoutManager = LinearLayoutManager(view.context)
     recipeListView.adapter = adapter
 
-    //
-    val allItems = getRecipeItems().map {
-      RecipeData(it.key, it.value)
+    val datas = XSp.getPrefabs()
+    val allItems = datas.map {
+      RecipeData(it.key, it.value.name, 0, it.value.url)
     }
 
     data?.forEach { recipe ->
@@ -134,9 +137,17 @@ private class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
   fun bind(item: RecipeData) {
     cache = item
 
-    Glide.with(context)
-      .load("file:///android_asset/icons/${item.id}.png")
-      .into(icon)
+    if (item.url != null) {
+      Glide.with(context)
+        .load(item.url)
+        .into(icon)
+    } else {
+      Glide.with(context)
+        .load("file:///android_asset/icons/${item.id}.png")
+        .into(icon)
+    }
+
+
     name.text = item.name
     if (item.cnt > 0) {
       num.setText(item.cnt.toString())

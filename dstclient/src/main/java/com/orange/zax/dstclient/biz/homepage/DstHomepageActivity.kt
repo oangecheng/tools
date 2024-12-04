@@ -5,6 +5,7 @@ import android.view.View
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.biz.homepage.data.XSp
 import com.ustc.zax.base.fragment.BaseFragment
 
 
@@ -25,6 +26,10 @@ class DstHomepageActivity : DstActivity() {
     }
     findViewById<View>(R.id.update).onClickFilter {
       change(PageUpdate.instance())
+    }
+
+    findViewById<View>(R.id.prefab).onClickFilter {
+      change(PageImage.instance())
     }
   }
 
