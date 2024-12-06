@@ -16,8 +16,3 @@ data class Prefab(
   @SerializedName("url")
   val url : String?
 )
-
-data class Prefabs(
-  @SerializedName("prefabs")
-  val prefabs: MutableMap<String, Prefab>
-)

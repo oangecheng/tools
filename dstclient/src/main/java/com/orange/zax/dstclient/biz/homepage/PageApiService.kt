@@ -53,4 +53,8 @@ interface PageApiService {
     @Field("data") data: String,
     @Field("type") type: Int
   ): Observable<Response<ActionResponse>>
+
+  @FormUrlEncoded
+  @POST("items/delete")
+  fun deleteItem(@Field("id") id: String): Observable<Response<ActionResponse>>
 }

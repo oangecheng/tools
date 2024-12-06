@@ -45,6 +45,8 @@ open class PageBase : BaseFragment() {
   private lateinit var etDesc: EditText
   private lateinit var etName: EditText
   private lateinit var etGain: EditText
+  private lateinit var image : EditText
+
   private lateinit var spTech: Spinner
   private lateinit var btnTab: Button
   private lateinit var tvTab : TextView
@@ -82,7 +84,7 @@ open class PageBase : BaseFragment() {
     etName = findViewById(R.id.input_name)
     etDesc = findViewById(R.id.input_desc)
     etGain = findViewById(R.id.input_gain)
-
+    image = findViewById(R.id.input_image)
     etId.addTextChangedListener(object : TextWatcherAdapter {
       override fun afterTextChanged(s: Editable?) {
         itemInfoCache.id = s.toString().trim()
@@ -127,7 +129,10 @@ open class PageBase : BaseFragment() {
     }
 
     btnAction.onClickFilter {
-      onAction(itemInfoCache)
+      itemInfoCache.image = image.text.toString().trim()
+      if (itemInfoCache.id.isNotEmpty()) {
+        onAction(itemInfoCache)
+      }
     }
 
     btnRecipe.onClickFilter {
@@ -188,6 +193,7 @@ open class PageBase : BaseFragment() {
     etName.setText(data.name)
     etDesc.setText(data.desc)
     etGain.setText(data.gain)
+    image.setText(data.image)
     spTech.setSelection(data.tech - 1)
     updateTabText(data.tabs)
     setRecipe(data.recipes)
@@ -197,11 +203,17 @@ open class PageBase : BaseFragment() {
     tvTab.text = tabs?.map { TABS[it] }?.joinToString("|")
   }
 
-  private val items = getRecipeItems()
   private fun setRecipe(recipes: List<Recipe>?) {
-    tvRecipe.text = recipes?.map {
-      "${items[it.id]}x${it.num}"
-    }?.joinToString(" | ")
+    PageImage.items().subscribe({ res ->
+      tvRecipe.text = recipes?.map { rec->
+        val p = res.firstOrNull { it.id == rec.id  }
+        "${p?.name}x${rec.num}"
+      }?.joinToString("|")
+    }, {
+
+    }).also {
+      autoDispose(it)
+    }
   }
 
   private data class Tech(

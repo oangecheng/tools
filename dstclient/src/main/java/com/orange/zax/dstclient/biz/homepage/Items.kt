@@ -24,6 +24,8 @@ data class ItemData(
   var id: String,
   @SerializedName("name")
   var name: String,
+  @SerializedName("image")
+  var image : String,
   @SerializedName("desc")
   var desc: String,
   @SerializedName("tabs")
@@ -39,7 +41,7 @@ data class ItemData(
   companion object {
     fun mock() : ItemData {
       return ItemData(
-        "", "", "", ArrayList(), 1, "", ArrayList()
+        "", "", "", "", ArrayList(), 1, "", ArrayList()
       )
     }
 
@@ -49,6 +51,8 @@ data class ItemData(
       to.desc = from.desc
       to.tabs.clear()
       to.tabs.addAll(from.tabs)
+      to.image = from.image
+      to.gain = from.gain
 
       to.recipes?.clear()
       from.recipes?.let { fromList ->

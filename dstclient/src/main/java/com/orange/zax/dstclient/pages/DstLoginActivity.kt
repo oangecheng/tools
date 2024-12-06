@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.EditText
 import com.orange.zax.dstclient.AdminAccount
+import com.orange.zax.dstclient.BuildConfig
 import com.orange.zax.dstclient.DstSkinApiService
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ErrorConsumer
@@ -33,6 +34,10 @@ class DstLoginActivity : DstActivity() {
     val usernameView : EditText = findViewById(R.id.username)
     val pwdView : EditText = findViewById(R.id.password)
     val btn : View = findViewById(R.id.login)
+
+    if (BuildConfig.DEBUG) {
+      startLogin("orange", "940512")
+    }
 
     btn.onClickFilter {
       val name = if (isTest) "orange" else usernameView.text.toString().trim()

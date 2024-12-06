@@ -52,6 +52,17 @@
     android:hint="获取方式"
     android:inputType="text" />
 
+  <EditText
+    android:id="@+id/input_image"
+    style="@style/DstEditText"
+    android:layout_width="match_parent"
+    android:layout_marginTop="10dp"
+    android:autofillHints="username"
+    android:gravity="start|center_vertical"
+    android:padding="10dp"
+    android:hint="图片地址"
+    android:inputType="text" />
+
   <LinearLayout
     android:layout_marginTop="10dp"
     android:layout_width="match_parent"
