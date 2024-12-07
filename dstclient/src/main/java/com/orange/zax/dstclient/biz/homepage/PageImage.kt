@@ -1,5 +1,8 @@
 package com.orange.zax.dstclient.biz.homepage
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +14,9 @@ import androidx.collection.ArraySet
 import com.bumptech.glide.Glide
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ErrorConsumer
+import com.orange.zax.dstclient.api.ImageUploader
 import com.orange.zax.dstclient.api.ResponseFunction
 import com.orange.zax.dstclient.api.XGson
-import com.orange.zax.dstclient.app.auto
 import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.biz.homepage.data.Prefab
 import com.orange.zax.dstclient.utils.ToastUtil
@@ -21,6 +24,7 @@ import com.ustc.zax.base.fragment.BaseFragment
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+
 
 /**
  * Time: 2024/12/3
@@ -64,6 +68,8 @@ class PageImage : BaseFragment() {
     }
   }
 
+  private var imageLoader : ImageUploader? = null
+
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -76,9 +82,25 @@ class PageImage : BaseFragment() {
     )
   }
 
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (requestCode === 100 && resultCode === RESULT_OK && data != null) {
+      val imageUri: Uri? = data.data
+      val id = view?.findViewById<EditText>(R.id.input_image_id)?.text?.toString()?.trim()
+      if (imageUri != null && id?.isNotEmpty() == true) {
+        imageLoader?.onSelect(imageUri, id) { url ->
+          view?.findViewById<EditText>(R.id.input_image_url)?.setText(url)
+          view?.findViewById<ImageView>(R.id.image)?.let {
+            Glide.with(this).load(url).into(it)
+          }
+        }
+
+      }
+    }
+  }
+
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
+    imageLoader = ImageUploader(this)
 
     val vId = view.findViewById<EditText>(R.id.input_image_id)
     val vName = view.findViewById<EditText>(R.id.input_image_name)
@@ -105,6 +127,14 @@ class PageImage : BaseFragment() {
       vUrl.setText(EMPTY)
     }
 
+    view.findViewById<View>(R.id.input_image_url_select).setOnClickListener {
+      if (vId.text.isNotEmpty()) {
+        imageLoader?.open()
+      } else {
+        ToastUtil.showShort("请输入文件id")
+      }
+    }
+
     vUpdate.setOnClickListener {
       val id = vId.text.toString().trim()
       val name = vName.text.toString().trim()
@@ -119,6 +149,8 @@ class PageImage : BaseFragment() {
             vName.setText(EMPTY)
             vUrl.setText(EMPTY)
             vUpdate.text = "查询物品"
+            ITEMS.removeAll { i -> i.id == id }
+            ITEMS.add(Prefab(id, name, url))
           }, {
           }).also {
             autoDispose(it)

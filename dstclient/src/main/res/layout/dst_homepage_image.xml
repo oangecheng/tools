@@ -54,6 +54,14 @@
 
     <Button
       style="@style/DstBtnStyle"
+      android:id="@+id/input_image_url_select"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:layout_marginStart="5dp"
+      android:text="选择"/>
+
+    <Button
+      style="@style/DstBtnStyle"
       android:id="@+id/input_image_url_clear"
       android:layout_width="0dp"
       android:layout_weight="1"

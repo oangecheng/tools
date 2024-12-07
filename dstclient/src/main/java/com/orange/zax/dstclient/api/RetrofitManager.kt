@@ -1,7 +1,10 @@
 package com.orange.zax.dstclient.api
 
+import com.orange.zax.dstclient.biz.homepage.ImageApiService
 import io.reactivex.schedulers.Schedulers
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -48,6 +51,20 @@ object RetrofitManager {
       .build()
   }
 
+  private val retrofitImage by lazy {
+    val client = OkHttpClient.Builder()
+      .hostnameVerifier(HostnameVerifier { _, _ -> true })
+      .build()
+
+    Retrofit.Builder()
+      .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+      .addConverterFactory(GsonConverterFactory.create())
+      .callbackExecutor {  }
+      .baseUrl("https://www.imagehub.cc/api/")
+      .client(client)
+      .build()
+  }
+
 
   fun <T> create(service : Class<T>) : T {
     return retrofit.create(service)
@@ -56,6 +73,10 @@ object RetrofitManager {
 
   fun <T> create2(service : Class<T>) : T {
     return retrofit2.create(service)
+  }
+
+  fun <T> image(service: Class<T>) : T {
+    return retrofitImage.create(service)
   }
 
 
