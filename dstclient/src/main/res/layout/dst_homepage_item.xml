@@ -41,27 +41,42 @@
     android:padding="10dp"
     android:scrollHorizontally="false" />
 
-  <EditText
-    android:id="@+id/input_gain"
-    style="@style/DstEditText"
-    android:layout_width="match_parent"
+  <LinearLayout
     android:layout_marginTop="10dp"
-    android:autofillHints="username"
-    android:gravity="start|center_vertical"
-    android:padding="10dp"
-    android:hint="获取方式"
-    android:inputType="text" />
 
-  <EditText
-    android:id="@+id/input_image"
-    style="@style/DstEditText"
     android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:autofillHints="username"
-    android:gravity="start|center_vertical"
-    android:padding="10dp"
-    android:hint="图片地址"
-    android:inputType="text" />
+    android:layout_height="50dp">
+
+    <EditText
+      android:id="@+id/input_image"
+      style="@style/DstEditText"
+      android:layout_width="0dp"
+      android:autofillHints="username"
+      android:gravity="start|center_vertical"
+      android:padding="10dp"
+      android:hint="图片地址"
+      android:inputType="text"
+      android:layout_weight="3"/>
+
+    <Button
+      android:id="@+id/input_image_url_select"
+      style="@style/DstBtnStyle"
+      android:layout_width="0dp"
+      android:layout_marginStart="5dp"
+      android:layout_weight="1"
+      android:text="选择" />
+
+    <Button
+      android:id="@+id/input_image_url_clear"
+      style="@style/DstBtnStyle"
+      android:layout_width="0dp"
+      android:layout_marginStart="5dp"
+      android:layout_weight="1"
+      android:text="重置" />
+
+  </LinearLayout>
+
+
 
   <LinearLayout
     android:layout_marginTop="10dp"
@@ -78,7 +93,7 @@
       android:background="#330000ff"
       android:textStyle="bold"
       android:textColor="@color/black"
-      android:text="科技"
+      android:text="获得类型"
       android:textSize="16dp" />
 
     <Spinner
@@ -89,6 +104,18 @@
       android:layout_weight="3"
       android:layout_marginStart="10dp"/>
   </LinearLayout>
+
+  <EditText
+    android:id="@+id/input_gain"
+    style="@style/DstEditText"
+    android:layout_width="match_parent"
+    android:layout_marginTop="10dp"
+    android:autofillHints="username"
+    android:gravity="start|center_vertical"
+    android:padding="10dp"
+    android:hint="详细获取方式描述"
+    android:inputType="text" />
+
 
   <Button
     android:id="@+id/btn_tabs"

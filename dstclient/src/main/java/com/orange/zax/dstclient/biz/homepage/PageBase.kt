@@ -1,8 +1,10 @@
 package com.orange.zax.dstclient.biz.homepage
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,8 +16,10 @@ import android.widget.EditText
 import android.widget.Spinner
 import android.widget.TextView
 import com.orange.zax.dstclient.R
+import com.orange.zax.dstclient.api.ImageUploader
 import com.orange.zax.dstclient.app.onClickFilter
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
+import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
 
 /**
@@ -27,16 +31,12 @@ import com.ustc.zax.base.fragment.BaseFragment
 open class PageBase : BaseFragment() {
 
   companion object {
-    private const val TECH_SI_1 = 1
-    private const val TECH_SI_2 = 2
-    private const val TECH_MG_1 = 3
-    private const val TECH_MG_2 = 4
+    private const val MIX = 1
+    private const val DROP = 2
 
     private val TECHS = mapOf(
-      "科技1本" to TECH_SI_1,
-      "科技2本" to TECH_SI_2,
-      "魔法1本" to TECH_MG_1,
-      "魔法2本" to TECH_MG_2
+      "合成" to MIX,
+      "掉落" to DROP
     )
   }
 
@@ -56,6 +56,7 @@ open class PageBase : BaseFragment() {
   protected val itemInfoCache = ItemData.mock()
   protected lateinit var btnAction: Button
 
+  private var imageLoader : ImageUploader? = null
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -71,6 +72,8 @@ open class PageBase : BaseFragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
+    imageLoader = ImageUploader(this)
+
     findViewById<TextView>(R.id.title).text = title()
     initViews()
   }
@@ -122,7 +125,7 @@ open class PageBase : BaseFragment() {
     spTech.adapter = adapter
     spTech.onItemSelectedListener = object : OnItemSelectedListener {
       override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        itemInfoCache.tech = techs[position].tech
+        itemInfoCache.gainType = techs[position].tech
       }
 
       override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -177,6 +180,33 @@ open class PageBase : BaseFragment() {
       )
     }
 
+    findViewById<View>(R.id.input_image_url_clear).setOnClickListener {
+      image.setText("")
+    }
+
+    findViewById<View>(R.id.input_image_url_select).setOnClickListener {
+      if (etId.text.isNotEmpty()) {
+        imageLoader?.open()
+      } else {
+        ToastUtil.showShort("请输入文件id")
+      }
+    }
+
+  }
+
+
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (requestCode === 100 && resultCode === RESULT_OK && data != null) {
+      val imageUri: Uri? = data.data
+      val id = etId.text.toString().trim()
+      if (imageUri != null && id.isNotEmpty()) {
+        imageLoader?.onSelect(imageUri, id) { url ->
+          ToastUtil.showShort("图片上传成功")
+          image.setText(url)
+        }
+
+      }
+    }
   }
 
   protected open fun onAction(data: ItemData) {
@@ -194,7 +224,7 @@ open class PageBase : BaseFragment() {
     etDesc.setText(data.desc)
     etGain.setText(data.gain)
     image.setText(data.image)
-    spTech.setSelection(data.tech - 1)
+    spTech.setSelection(data.gainType - 1)
     updateTabText(data.tabs)
     setRecipe(data.recipes)
   }

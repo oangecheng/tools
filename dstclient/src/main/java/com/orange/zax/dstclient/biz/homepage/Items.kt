@@ -30,8 +30,8 @@ data class ItemData(
   var desc: String,
   @SerializedName("tabs")
   var tabs: MutableList<Int>,
-  @SerializedName("tech")
-  var tech: Int,
+  @SerializedName("gainType")
+  var gainType: Int,
   @SerializedName("gain")
   var gain: String,
   @SerializedName("recipes")
