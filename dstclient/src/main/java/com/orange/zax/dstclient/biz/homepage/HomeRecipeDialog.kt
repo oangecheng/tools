@@ -127,7 +127,7 @@ private class RecipeViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
   init {
     num.addTextChangedListener(textWatcher)
-    add.onClickFilter {
+    add.setOnClickListener {
       val cnt = cache?.cnt ?: 0
       cache?.cnt = cnt + 1
       num.setText(cache?.cnt?.toString() ?: "")

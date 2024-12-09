@@ -13,8 +13,10 @@ import android.widget.AdapterView.OnItemSelectedListener
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ImageUploader
 import com.orange.zax.dstclient.app.onClickFilter
@@ -46,6 +48,7 @@ open class PageBase : BaseFragment() {
   private lateinit var etName: EditText
   private lateinit var etGain: EditText
   private lateinit var image : EditText
+  private lateinit var imagePre : ImageView
 
   private lateinit var spTech: Spinner
   private lateinit var btnTab: Button
@@ -88,6 +91,8 @@ open class PageBase : BaseFragment() {
     etDesc = findViewById(R.id.input_desc)
     etGain = findViewById(R.id.input_gain)
     image = findViewById(R.id.input_image)
+    imagePre = findViewById(R.id.image_preview)
+
     etId.addTextChangedListener(object : TextWatcherAdapter {
       override fun afterTextChanged(s: Editable?) {
         itemInfoCache.id = s.toString().trim()
@@ -200,11 +205,13 @@ open class PageBase : BaseFragment() {
       val imageUri: Uri? = data.data
       val id = etId.text.toString().trim()
       if (imageUri != null && id.isNotEmpty()) {
-        imageLoader?.onSelect(imageUri, id) { url ->
-          ToastUtil.showShort("图片上传成功")
-          image.setText(url)
+        Glide.with(this).load(imageUri).into(imagePre)
+        imagePre.setOnClickListener {
+          imageLoader?.onSelect(imageUri, id) { url ->
+            ToastUtil.showShort("图片上传成功")
+            image.setText(url)
+          }
         }
-
       }
     }
   }
