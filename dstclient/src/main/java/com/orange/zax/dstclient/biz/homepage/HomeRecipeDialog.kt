@@ -16,10 +16,13 @@ import com.bumptech.glide.Glide
 import com.orange.zax.dialogs.XDialog
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.biz.homepage.data.ItemCache
+import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.biz.homepage.data.Prefab
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
 import com.ustc.zax.base.recycler.BaseRecyclerAdapter
 import java.text.Collator
+import java.util.ArrayList
 import java.util.Locale
 
 /**
@@ -31,11 +34,11 @@ import java.util.Locale
 class HomeRecipeDialog : XDialog() {
 
   companion object {
-    fun instance(data : List<Recipe>?, prefabs: Set<Prefab>, listener: Listener) : DialogFragment {
+    fun instance(data : List<Recipe>?, listener: Listener) : DialogFragment {
       val dialog = HomeRecipeDialog()
       dialog.listener = listener
       dialog.data = data
-      dialog.prefabs.addAll(prefabs)
+      dialog.prefabs.addAll(ItemCache.items(ItemType.RECIPE))
       return dialog
     }
   }
@@ -45,11 +48,11 @@ class HomeRecipeDialog : XDialog() {
 
   private var listener : Listener? = null
   private var data : List<Recipe>? = null
-  private var prefabs = ArraySet<Prefab>()
+  private var prefabs = ArrayList<Prefab>()
 
 
   override fun getLayoutRes(): Int {
-    return R.layout.dst_homepage_recipe
+    return R.layout.dialog_list_layout
   }
 
   override fun getTitle(): String {
@@ -58,10 +61,10 @@ class HomeRecipeDialog : XDialog() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    recipeListView = view.findViewById(R.id.recipe_list)
+    recipeListView = view.findViewById(R.id.list)
     initListView(recipeListView)
-
-    view.findViewById<View>(R.id.recipe_sure).onClickFilter {
+    view.findViewById<View>(R.id.sure).visibility = View.VISIBLE
+    view.findViewById<View>(R.id.sure).onClickFilter {
       val list =  adapter.getList()
         .filter { it.cnt > 0 }
         .map { Recipe(it.id, it.cnt, it.url) }
@@ -95,6 +98,10 @@ class HomeRecipeDialog : XDialog() {
 
   interface Listener {
     fun onDismiss(items : List<Recipe>)
+  }
+
+  override fun getStyle(): Int {
+    return Style.STYLE_BOTTOM
   }
 }
 

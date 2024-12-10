@@ -20,6 +20,9 @@ import com.bumptech.glide.Glide
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ImageUploader
 import com.orange.zax.dstclient.app.onClickFilter
+import com.orange.zax.dstclient.biz.homepage.data.ItemCache
+import com.orange.zax.dstclient.biz.homepage.data.ItemType
+import com.orange.zax.dstclient.biz.homepage.data.Prefab
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
 import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
@@ -59,8 +62,6 @@ open class PageBase : BaseFragment() {
   protected val itemInfoCache = ItemData.mock()
   protected lateinit var btnAction: Button
 
-  private var imageLoader : ImageUploader? = null
-
   override fun onCreateView(
     inflater: LayoutInflater,
     container: ViewGroup?,
@@ -75,8 +76,6 @@ open class PageBase : BaseFragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    imageLoader = ImageUploader(this)
-
     findViewById<TextView>(R.id.title).text = title()
     initViews()
   }
@@ -144,28 +143,18 @@ open class PageBase : BaseFragment() {
     }
 
     btnRecipe.onClickFilter {
-      PageImage.items().subscribe(
-        {
-          HomeRecipeDialog.instance(
-            itemInfoCache.recipes,
-            it,
-            object : HomeRecipeDialog.Listener {
-              override fun onDismiss(items: List<Recipe>) {
-                itemInfoCache.recipes = items.toMutableList()
-                setRecipe(itemInfoCache.recipes)
-              }
-            }
-          ).show(
-            childFragmentManager,
-            "ss"
-          )
-        }, {
-
+      HomeRecipeDialog.instance(
+        itemInfoCache.recipes,
+        object : HomeRecipeDialog.Listener {
+          override fun onDismiss(items: List<Recipe>) {
+            itemInfoCache.recipes = items.toMutableList()
+            setRecipe(itemInfoCache.recipes)
+          }
         }
-      ).also {
-        autoDispose(it)
-      }
-
+      ).show(
+        childFragmentManager,
+        "ss"
+      )
     }
 
 
@@ -190,30 +179,14 @@ open class PageBase : BaseFragment() {
     }
 
     findViewById<View>(R.id.input_image_url_select).setOnClickListener {
-      if (etId.text.isNotEmpty()) {
-        imageLoader?.open()
-      } else {
-        ToastUtil.showShort("请输入文件id")
-      }
-    }
-
-  }
-
-
-  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    if (requestCode === 100 && resultCode === RESULT_OK && data != null) {
-      val imageUri: Uri? = data.data
-      val id = etId.text.toString().trim()
-      if (imageUri != null && id.isNotEmpty()) {
-        Glide.with(this).load(imageUri).into(imagePre)
-        imagePre.setOnClickListener {
-          imageLoader?.onSelect(imageUri, id) { url ->
-            ToastUtil.showShort("图片上传成功")
-            image.setText(url)
-          }
+      ImageDialog.instance(object : ImageDialog.Listener {
+        override fun onSelected(prefab: Prefab) {
+          image.setText(prefab.url)
+          Glide.with(this@PageBase).load(prefab.url).into(imagePre)
         }
-      }
+      }).show(childFragmentManager, "")
     }
+
   }
 
   protected open fun onAction(data: ItemData) {
@@ -241,15 +214,9 @@ open class PageBase : BaseFragment() {
   }
 
   private fun setRecipe(recipes: List<Recipe>?) {
-    PageImage.items().subscribe({ res ->
-      tvRecipe.text = recipes?.map { rec->
-        val p = res.firstOrNull { it.id == rec.id  }
-        "${p?.name}x${rec.num}"
-      }?.joinToString("|")
-    }, {
-
-    }).also {
-      autoDispose(it)
+    tvRecipe.text = recipes?.joinToString("|") {
+      val p = ItemCache.item(ItemType.RECIPE, it.id)
+      "${p?.name}x${it.num}"
     }
   }
 

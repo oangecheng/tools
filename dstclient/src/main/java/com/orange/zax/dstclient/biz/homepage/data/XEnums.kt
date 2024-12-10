@@ -11,5 +11,6 @@ annotation class ItemType {
   companion object {
     const val NORMAL = 1
     const val RECIPE = 2
+    const val IMAGE = 3
   }
 }

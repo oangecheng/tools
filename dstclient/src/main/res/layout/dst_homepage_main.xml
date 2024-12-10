@@ -30,6 +30,14 @@
     style="@style/DstBtnStyle"
     android:layout_width="@dimen/dst_btn_width_medium"
     android:layout_marginTop="@dimen/dst_vertical_margin_small"
-    android:text="新增预制物" />
+    android:text="配方物品管理" />
+
+
+  <Button
+    android:id="@+id/image"
+    style="@style/DstBtnStyle"
+    android:layout_width="@dimen/dst_btn_width_medium"
+    android:layout_marginTop="@dimen/dst_vertical_margin_small"
+    android:text="图片资源管理" />
 
 </LinearLayout>

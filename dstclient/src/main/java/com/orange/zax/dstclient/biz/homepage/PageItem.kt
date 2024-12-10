@@ -17,11 +17,11 @@ import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ImageUploader
 import com.orange.zax.dstclient.api.ResponseFunction
 import com.orange.zax.dstclient.api.XGson
+import com.orange.zax.dstclient.biz.homepage.data.ItemCache
 import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.biz.homepage.data.Prefab
 import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 
@@ -32,39 +32,19 @@ import io.reactivex.disposables.Disposable
  * Simple is better than complex ~
  * Desc:
  */
-class PageImage : BaseFragment() {
+class PageItem : BaseFragment() {
 
   companion object {
 
-    private val ITEMS = ArraySet<Prefab>()
+    private const val TYPE_KEY = "type"
     private const val EMPTY = ""
 
-    fun instance() : BaseFragment {
-      return PageImage()
-    }
-
-    fun items(): Observable<ArraySet<Prefab>>{
-      if (ITEMS.isEmpty()) {
-        return PageApiService.get()
-          .typeItems(ItemType.RECIPE)
-          .map(ResponseFunction())
-          .map { resp ->
-            resp.items.map {
-              XGson.parse(it.data, Prefab::class.java) ?: Prefab("", "", "")
-            }.filter {
-              it.id.isNotEmpty()
-            }
-          }
-          .observeOn(AndroidSchedulers.mainThread())
-          .doOnNext {
-            ITEMS.clear()
-            ITEMS.addAll(it)
-          }.map {
-            ITEMS
-          }
-      }
-      return Observable.just(ITEMS)
-        .observeOn(AndroidSchedulers.mainThread())
+    fun instance(@ItemType type: Int) : BaseFragment {
+      val page = PageItem()
+      val args = Bundle()
+      args.putInt(TYPE_KEY, type)
+      page.arguments = args
+      return page
     }
   }
 
@@ -110,12 +90,15 @@ class PageImage : BaseFragment() {
     val vDel = view.findViewById<View>(R.id.btn_delete)
     val vImg = view.findViewById<ImageView>(R.id.image)
 
+    val type = arguments?.getInt(TYPE_KEY) ?: 0
+
+
     vAdd.setOnClickListener {
       val id = vId.text.toString().trim()
       val name = vName.text.toString().trim()
       val url = vUrl.text.toString().trim()
       if (id.isNotEmpty() && name.isNotEmpty() && url.isNotEmpty()) {
-        addPrefab(Prefab(id, name, url)) {
+        addPrefab(type, Prefab(id, name, url)) {
           vId.setText(EMPTY)
           vName.setText(EMPTY)
           vUrl.setText(EMPTY)
@@ -135,6 +118,7 @@ class PageImage : BaseFragment() {
       }
     }
 
+
     vUpdate.setOnClickListener {
       val id = vId.text.toString().trim()
       val name = vName.text.toString().trim()
@@ -142,34 +126,26 @@ class PageImage : BaseFragment() {
 
       if (id.isNotEmpty() && name.isNotEmpty() && url.isNotEmpty()) {
         val data = XGson.GSON.toJson(Prefab(id, name, url))
-        PageApiService.get().updateItem(id, data, ItemType.RECIPE)
+        PageApiService.get().updateItem(id, data, type)
           .map(ResponseFunction())
           .subscribe({
             vId.setText(EMPTY)
             vName.setText(EMPTY)
             vUrl.setText(EMPTY)
             vUpdate.text = "查询物品"
-            ITEMS.removeAll { i -> i.id == id }
-            ITEMS.add(Prefab(id, name, url))
+            ItemCache.cache(type, Prefab(id, name, url))
           }, {
+
           }).also {
             autoDispose(it)
           }
       } else if (id.isNotEmpty()) {
-        PageApiService.get().queryItem(id)
-          .map(ResponseFunction())
-          .filter { it.type == ItemType.RECIPE }
-          .map { XGson.parse(it.data, Prefab::class.java)?:Prefab("", "", "") }
-          .observeOn(AndroidSchedulers.mainThread())
-          .subscribe({
-            vId.setText(it.id)
-            vName.setText(it.name)
-            vUrl.setText(it.url)
-            vUpdate.text = "更新物品"
-          }, {
-          }).also {
-            autoDispose(it)
-          }
+        ItemCache.item(type, id)?.let {
+          vId.setText(it.id)
+          vName.setText(it.name)
+          vUrl.setText(it.url)
+          vUpdate.text = "更新物品"
+        }
       }
     }
 
@@ -199,14 +175,14 @@ class PageImage : BaseFragment() {
   }
 
 
-  private fun addPrefab(prefab: Prefab, invoke: () -> Unit): Disposable {
+  private fun addPrefab(type: Int, prefab: Prefab, invoke: () -> Unit): Disposable {
     val data = XGson.GSON.toJson(prefab)
     return PageApiService.get()
-      .addItem(prefab.id, data, ItemType.RECIPE)
+      .addItem(prefab.id, data, type)
       .observeOn(AndroidSchedulers.mainThread())
       .subscribe({
         ToastUtil.showLong("添加成功")
-        ITEMS.add(prefab)
+        ItemCache.cache(type, prefab)
         invoke()
       }, {
         ErrorConsumer().accept(it)

@@ -95,7 +95,7 @@ abstract class XDialog : DialogFragment() {
     return if (getStyle() == Style.STYLE_BOTTOM) {
       MATCH_PARENT
     } else {
-      WRAP_CONTENT
+      MATCH_PARENT
     }
   }
 
