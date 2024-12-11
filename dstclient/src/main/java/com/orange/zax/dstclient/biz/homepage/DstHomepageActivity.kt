@@ -2,6 +2,7 @@ package com.orange.zax.dstclient.biz.homepage
 
 import android.os.Bundle
 import android.view.View
+import com.orange.zax.dstclient.BackPressInterceptor
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.app.DstActivity
 import com.orange.zax.dstclient.app.onClickFilter
@@ -29,13 +30,9 @@ class DstHomepageActivity : DstActivity() {
 
 
   override fun onBind(data: Bundle?) {
-    findViewById<View>(R.id.add).onClickFilter {
-      change(PageAdd.instance())
+    findViewById<View>(R.id.manage).onClickFilter {
+      change(PageMain.instance())
     }
-    findViewById<View>(R.id.update).onClickFilter {
-      change(PageUpdate.instance())
-    }
-
     findViewById<View>(R.id.prefab).onClickFilter {
       change(PageItem.instance(ItemType.RECIPE))
     }
@@ -46,6 +43,14 @@ class DstHomepageActivity : DstActivity() {
   }
 
   override fun onBackPressed() {
+    val frg = supportFragmentManager.fragments
+    frg.forEach {
+      if (it is BackPressInterceptor) {
+        if (it.intercept()) {
+          return
+        }
+      }
+    }
     if (supportFragmentManager.backStackEntryCount > 0) {
       supportFragmentManager.popBackStack()
     } else {

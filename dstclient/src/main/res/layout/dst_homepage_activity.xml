@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:gravity="center"
+  android:orientation="vertical">
+
+  <TextView
+    style="@style/DialogTitle"
+    android:text="主页物品管理系统"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="50dp"/>
+
+  <Button
+    android:id="@+id/manage"
+    style="@style/DstBtnStyle"
+    android:layout_width="@dimen/dst_btn_width_medium"
+    android:text="管理主页" />
+
+  <Button
+    android:id="@+id/prefab"
+    style="@style/DstBtnStyle"
+    android:layout_width="@dimen/dst_btn_width_medium"
+    android:layout_marginTop="@dimen/dst_vertical_margin_small"
+    android:text="配方物品管理" />
+
+
+  <Button
+    android:id="@+id/image"
+    style="@style/DstBtnStyle"
+    android:layout_width="@dimen/dst_btn_width_medium"
+    android:layout_marginTop="@dimen/dst_vertical_margin_small"
+    android:text="图片资源管理" />
+
+</LinearLayout>

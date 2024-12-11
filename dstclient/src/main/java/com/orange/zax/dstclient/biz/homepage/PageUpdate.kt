@@ -26,8 +26,10 @@ import io.reactivex.disposables.Disposable
 class PageUpdate : PageBase() {
 
   companion object {
-    fun instance() : BaseFragment {
-      return PageUpdate()
+    fun instance(data : ItemData) : BaseFragment {
+      return PageUpdate().apply {
+        itemInfoFromServer = data
+      }
     }
   }
 
@@ -47,35 +49,21 @@ class PageUpdate : PageBase() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    btnAction.text = "获取物品信息"
+    btnAction.text = "更新物品"
+    itemInfoFromServer?.let {
+      ItemData.copy(it, itemInfoCache)
+      updatePage(itemInfoCache)
+    }
+  }
+
+  override fun title(): String {
+    return "更新物品"
   }
 
   override fun onAction(data: ItemData) {
-    autoDispose(
-      if (itemInfoFromServer != null) {
-        updateItem(data)
-      } else {
-        queryItem(data.id)
-      }
-    )
-  }
-
-  private fun queryItem(id: String): Disposable {
-    return PageApiService.get()
-      .queryItem(id)
-      .map(ResponseFunction())
-      .filter { it.type == ItemType.NORMAL }
-      .map { Gson().fromJson(it.data, ItemData::class.java) }
-      .observeOn(AndroidSchedulers.mainThread())
-      .doOnError(ErrorConsumer())
-      .subscribe({
-        itemInfoFromServer = it
-        ItemData.copy(it, itemInfoCache)
-        updatePage(itemInfoCache)
-        btnAction.text = "更新物品"
-      }, {
-        ErrorConsumer().accept(it)
-      })
+    if (itemInfoFromServer != null) {
+      autoDispose(updateItem(data))
+    }
   }
 
   private fun updateItem(data: ItemData): Disposable {

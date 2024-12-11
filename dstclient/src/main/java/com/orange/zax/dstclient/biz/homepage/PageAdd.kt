@@ -40,9 +40,8 @@ class PageAdd private constructor() : PageBase() {
     )
   }
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-    btnAction.text = "新增物品"
+  override fun title(): String {
+    return "新增物品"
   }
 
   override fun onAction(data: ItemData) {

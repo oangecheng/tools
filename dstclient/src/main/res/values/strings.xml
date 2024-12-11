@@ -28,4 +28,9 @@
   <string name="dst_skin_register">上架皮肤</string>
   <string name="dst_skin_update">更新皮肤</string>
 
+
+  <string name="dst_home_main_title">物品管理</string>
+  <string name="dst_home_main_add">新增物品</string>
+
+
 </resources>

@@ -207,6 +207,7 @@ open class PageBase : BaseFragment() {
     spTech.setSelection(data.gainType - 1)
     updateTabText(data.tabs)
     setRecipe(data.recipes)
+    Glide.with(this@PageBase).load(data.image).into(imagePre)
   }
 
   private fun updateTabText(tabs : List<Int>?) {
