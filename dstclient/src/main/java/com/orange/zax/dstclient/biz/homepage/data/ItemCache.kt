@@ -28,6 +28,15 @@ object ItemCache {
     normal()
   }
 
+  fun remove(type: Int, id: String) {
+    if (type == ItemType.NORMAL) {
+      NORMAL.remove(id)
+      NORMAL_LIVE.value = NORMAL.map { it.value }
+    } else {
+      ITEMS[type]?.remove(id)
+    }
+  }
+
   fun items(type: Int): List<Prefab> {
     return ITEMS[type]?.map { it.value } ?: emptyList()
   }

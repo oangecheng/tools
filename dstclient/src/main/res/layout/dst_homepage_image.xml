@@ -9,6 +9,7 @@
 
   <TextView
     style="@style/DialogTitle"
+    android:id="@+id/title"
     android:text="新增配方物品"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"/>

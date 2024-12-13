@@ -1,5 +1,6 @@
 package com.orange.zax.dstclient.biz.homepage
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -68,6 +69,7 @@ class PageMain : BaseFragment(), BackPressInterceptor {
     }
   }
 
+  @SuppressLint("NotifyDataSetChanged")
   private fun initListView(view: RecyclerView) {
     view.layoutManager = LinearLayoutManager(view.context)
     val adapter = Adapter()
@@ -75,7 +77,9 @@ class PageMain : BaseFragment(), BackPressInterceptor {
     val chinaCollator = Collator.getInstance(Locale.CHINESE)
     ItemCache.observeNormal(this, Observer { l ->
       val list = l.sortedWith(Comparator { o1, o2 -> chinaCollator.compare(o1.name, o2.name) })
-      adapter.setList(list)
+      adapter.clear()
+      adapter.addAll(list)
+      adapter.notifyDataSetChanged()
     })
   }
 

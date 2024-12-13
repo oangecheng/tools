@@ -8,6 +8,7 @@ import com.google.gson.Gson
 import com.orange.zax.dstclient.R
 import com.orange.zax.dstclient.api.ErrorConsumer
 import com.orange.zax.dstclient.api.ResponseFunction
+import com.orange.zax.dstclient.biz.homepage.data.ItemCache
 import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
@@ -54,6 +55,7 @@ class PageAdd private constructor() : PageBase() {
       .observeOn(AndroidSchedulers.mainThread())
       .map(ResponseFunction())
       .subscribe({
+        ItemCache.cache(data)
         ToastUtil.showShort("新增物品成功")
       }, {
         ErrorConsumer().accept(it)

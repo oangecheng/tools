@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.collection.ArraySet
 import com.bumptech.glide.Glide
 import com.orange.zax.dstclient.R
@@ -92,6 +93,12 @@ class PageItem : BaseFragment() {
 
     val type = arguments?.getInt(TYPE_KEY) ?: 0
 
+    view.findViewById<TextView>(R.id.title).text = if (type == ItemType.RECIPE) {
+      "配方物品"
+    } else {
+      "图片资源"
+    }
+
 
     vAdd.setOnClickListener {
       val id = vId.text.toString().trim()
@@ -155,6 +162,7 @@ class PageItem : BaseFragment() {
         PageApiService.get().deleteItem(id)
           .observeOn(AndroidSchedulers.mainThread())
           .subscribe({
+            ItemCache.remove(type, id)
             ToastUtil.showShort("删除成功")
           }, {
             ErrorConsumer().accept(it)
