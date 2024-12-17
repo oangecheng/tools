@@ -53,6 +53,7 @@ data class ItemData(
       to.tabs.addAll(from.tabs)
       to.image = from.image
       to.gain = from.gain
+      to.gainType = from.gainType
 
       to.recipes?.clear()
       from.recipes?.let { fromList ->
