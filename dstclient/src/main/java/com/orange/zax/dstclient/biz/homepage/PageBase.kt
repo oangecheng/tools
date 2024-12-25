@@ -88,7 +88,15 @@ open class PageBase : BaseFragment() {
 
   private fun initViews() {
     findViewById<View>(R.id.template_farm).setOnClickListener {
-      setTemplate(1)
+      val dialog = DialogTemplateFarm.instance()
+      dialog.onUseTemplate = {
+        etDesc.setText(it.desc)
+        etGain.setText(it.gain)
+      }
+      dialog.show(
+        childFragmentManager,
+        "farmTemplate"
+      )
     }
 
     findViewById<View>(R.id.template_soul).setOnClickListener {

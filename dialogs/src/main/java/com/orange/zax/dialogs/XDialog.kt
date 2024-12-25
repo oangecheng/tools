@@ -78,6 +78,11 @@ abstract class XDialog : DialogFragment() {
     )
   }
 
+  fun <T : View> findViewById(id : Int) : T {
+    return view?.findViewById(id)!!
+
+  }
+
   @Style
   open fun getStyle(): Int {
     return Style.STYLE_CENTER
