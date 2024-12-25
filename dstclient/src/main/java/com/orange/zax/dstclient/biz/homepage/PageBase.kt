@@ -1,8 +1,5 @@
 package com.orange.zax.dstclient.biz.homepage
 
-import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
@@ -18,13 +15,12 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.orange.zax.dstclient.R
-import com.orange.zax.dstclient.api.ImageUploader
 import com.orange.zax.dstclient.app.onClickFilter
 import com.orange.zax.dstclient.biz.homepage.data.ItemCache
 import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.biz.homepage.data.Prefab
+import com.orange.zax.dstclient.biz.homepage.data.Template
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
-import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
 
 /**
@@ -44,7 +40,6 @@ open class PageBase : BaseFragment() {
       "掉落" to DROP
     )
   }
-
 
   private lateinit var etId: EditText
   private lateinit var etDesc: EditText
@@ -82,9 +77,28 @@ open class PageBase : BaseFragment() {
 
   private fun <T : View> findViewById(id : Int) : T {
     return view?.findViewById(id)!!
+
+  }
+
+  private fun setTemplate(type: Int) {
+    val data = Template.get(type)
+    etDesc.setText(data.desc)
+    etGain.setText(data.gain)
   }
 
   private fun initViews() {
+    findViewById<View>(R.id.template_farm).setOnClickListener {
+      setTemplate(1)
+    }
+
+    findViewById<View>(R.id.template_soul).setOnClickListener {
+      setTemplate(2)
+    }
+
+    findViewById<View>(R.id.template_animal).setOnClickListener {
+      setTemplate(3)
+    }
+
     etId = findViewById(R.id.input_id)
     etName = findViewById(R.id.input_name)
     etDesc = findViewById(R.id.input_desc)

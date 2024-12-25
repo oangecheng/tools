@@ -52,6 +52,62 @@
     android:padding="10dp"
     android:scrollHorizontally="false" />
 
+  <EditText
+    android:id="@+id/input_gain"
+    style="@style/DstEditText"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:layout_marginTop="10dp"
+    android:autofillHints="username"
+    android:gravity="start|center_vertical"
+    android:padding="10dp"
+    android:hint="详细获取方式描述"
+    android:inputType="textMultiLine" />
+
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:layout_marginTop="2dp"
+    android:orientation="horizontal">
+
+    <Button
+      android:id="@+id/template_farm"
+      android:layout_width="0dp"
+      android:layout_height="30dp"
+      android:layout_weight="1"
+      android:background="@drawable/dialog_btn_bg_red"
+      android:padding="0dp"
+      android:textColor="@color/white"
+      android:text="农场"
+      android:textSize="12dp" />
+
+    <Button
+      android:id="@+id/template_soul"
+      android:layout_width="0dp"
+      android:layout_height="30dp"
+      android:layout_weight="1"
+      android:background="@drawable/dialog_btn_bg_red"
+      android:padding="0dp"
+      android:text="灵魂"
+      android:textColor="@color/white"
+      android:layout_marginStart="10dp"
+      android:textSize="12dp" />
+
+    <Button
+      android:id="@+id/template_animal"
+      android:layout_width="0dp"
+      android:layout_height="30dp"
+      android:layout_weight="1"
+      android:background="@drawable/dialog_btn_bg_red"
+      android:padding="0dp"
+      android:textColor="@color/white"
+      android:layout_marginStart="10dp"
+      android:text="动物"
+      android:textSize="12dp" />
+
+  </LinearLayout>
+
   <LinearLayout
     android:layout_marginTop="10dp"
 
@@ -95,7 +151,6 @@
   </LinearLayout>
 
 
-
   <LinearLayout
     android:layout_marginTop="10dp"
     android:layout_width="match_parent"
@@ -123,24 +178,27 @@
       android:layout_marginStart="10dp"/>
   </LinearLayout>
 
-  <EditText
-    android:id="@+id/input_gain"
-    style="@style/DstEditText"
+  <LinearLayout
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginTop="10dp"
-    android:autofillHints="username"
-    android:gravity="start|center_vertical"
-    android:padding="10dp"
-    android:hint="详细获取方式描述"
-    android:inputType="text" />
+    android:orientation="horizontal">
 
+    <Button
+      android:id="@+id/btn_tabs"
+      android:layout_width="0dp"
+      style="@style/DstBtnStyle"
+      android:layout_weight="1"
+      android:text="选择tab" />
 
-  <Button
-    android:id="@+id/btn_tabs"
-    style="@style/DstBtnStyle"
-    android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:text="选择tab" />
+    <Button
+      android:id="@+id/btn_recipes"
+      style="@style/DstBtnStyle"
+      android:layout_width="0dp"
+      android:layout_marginStart="10dp"
+      android:layout_weight="1"
+      android:text="修改配方" />
+  </LinearLayout>
 
   <TextView
     android:id="@+id/tv_tabs"
@@ -149,12 +207,7 @@
     android:textSize="14dp"
     tools:text="建筑"/>
 
-  <Button
-    android:id="@+id/btn_recipes"
-    style="@style/DstBtnStyle"
-    android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:text="修改配方" />
+
 
   <TextView
     android:id="@+id/tv_recipes"
