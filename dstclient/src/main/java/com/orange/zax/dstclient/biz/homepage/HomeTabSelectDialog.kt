@@ -136,5 +136,6 @@ val TABS : Map<Int, String> = mapOf(
   5 to "灵魂",
   6 to "工具",
   7 to "储物",
-  8 to "动物"
+  8 to "动物",
+  9 to "渔场"
 )
