@@ -1,5 +1,6 @@
 package com.ustc.zax.base.fragment
 
+import android.view.View
 import androidx.fragment.app.Fragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -23,5 +24,10 @@ open class BaseFragment : Fragment() {
   override fun onDestroyView() {
     super.onDestroyView()
     disposables.dispose()
+  }
+
+
+  fun <T : View> findViewById(id : Int) : T {
+    return view?.findViewById(id)!!
   }
 }

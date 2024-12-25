@@ -40,6 +40,10 @@ class DstHomepageActivity : DstActivity() {
     findViewById<View>(R.id.image).onClickFilter {
       change(PageItem.instance(ItemType.IMAGE))
     }
+
+    findViewById<View>(R.id.tab).onClickFilter {
+      change(PageTabDesc.instance())
+    }
   }
 
   override fun onBackPressed() {

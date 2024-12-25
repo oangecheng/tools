@@ -149,9 +149,7 @@ class DialogTemplateFarm : XDialog() {
   }
 
   private fun desc(animalName: String): String {
-    return "这里居住着勤劳而友善的‹$animalName›，他们为冒险者们提供了丰富的资源和无私的帮助，投喂相应的饲料可以收获各种类型的产品。" +
-      "\n小动物只会在农场范围内(以农场为中心2x2地皮)活动，右键打开面板可以对农场和动物进行升级(需要携带指定物品)。" +
-      "\n需要‹饲料盆›和‹灵魂孵化器›才能正常工作，需要先建造农场。"
+    return "这里居住着勤劳而友善的‹$animalName›"
   }
 
   private fun param(animalName: String, animalNum : Int, time : Int) : String {

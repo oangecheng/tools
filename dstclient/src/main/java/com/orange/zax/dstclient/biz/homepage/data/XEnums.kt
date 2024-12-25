@@ -12,5 +12,6 @@ annotation class ItemType {
     const val NORMAL = 1
     const val RECIPE = 2
     const val IMAGE = 3
+    const val TAB = 4
   }
 }

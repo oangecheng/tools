@@ -75,11 +75,6 @@ open class PageBase : BaseFragment() {
     initViews()
   }
 
-  private fun <T : View> findViewById(id : Int) : T {
-    return view?.findViewById(id)!!
-
-  }
-
   private fun setTemplate(type: Int) {
     val data = Template.get(type)
     etDesc.setText(data.desc)

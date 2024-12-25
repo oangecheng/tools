@@ -16,3 +16,12 @@ data class Prefab(
   @SerializedName("url")
   val url : String?
 )
+
+data class TabInfo(
+  @SerializedName("id")
+  val id: String,
+  @SerializedName("tab")
+  val tab : Int,
+  @SerializedName("desc")
+  val desc : String
+)

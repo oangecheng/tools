@@ -22,9 +22,12 @@ object ItemCache {
   private val NORMAL = HashMap<String, ItemData>()
   private val NORMAL_LIVE = MutableLiveData<List<ItemData>>()
 
+  private val TABS = HashMap<String, TabInfo>()
+
   fun init() {
     request(ItemType.RECIPE)
     request(ItemType.IMAGE)
+    tab()
     normal()
   }
 
@@ -34,6 +37,18 @@ object ItemCache {
       NORMAL_LIVE.value = NORMAL.map { it.value }
     } else {
       ITEMS[type]?.remove(id)
+    }
+  }
+
+  fun tab(id: String): TabInfo? {
+    return TABS[id]
+  }
+
+  fun cacheTab(id: String, tabInfo: TabInfo?) {
+    if (tabInfo != null) {
+      TABS[id] = tabInfo
+    } else {
+      TABS.remove(id)
     }
   }
 
@@ -93,6 +108,24 @@ object ItemCache {
           data[i.id] = i
         }
         ITEMS[type] = data
+      }
+  }
+
+  private fun tab() {
+    val d = PageApiService.get().typeItems(ItemType.TAB)
+      .map(ResponseFunction())
+      .map { resp ->
+        resp.items.map {
+          XGson.parse(it.data, TabInfo::class.java)!!
+        }
+      }
+      .observeOn(AndroidSchedulers.mainThread())
+      .subscribe {
+        val data = HashMap<String, TabInfo>()
+        it.forEach { i->
+          data[i.id] = i
+        }
+        TABS.putAll(data)
       }
   }
 }
