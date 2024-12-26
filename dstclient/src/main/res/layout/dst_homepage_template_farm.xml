@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_marginHorizontal="30dp"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:paddingHorizontal="10dp"
+  android:layout_marginHorizontal="30dp"
+  android:orientation="vertical"
   android:paddingBottom="25dp"
-  android:orientation="vertical">
+  android:paddingHorizontal="10dp">
+
   <ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-      android:orientation="vertical"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content">
+      android:layout_height="wrap_content"
+      android:orientation="vertical">
 
       <EditText
         android:id="@+id/farm_desc"
@@ -22,11 +23,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="username"
+        android:gravity="start|center_vertical"
         android:hint="输入物品介绍"
         android:inputType="textMultiLine"
-        android:minHeight="100dp"
         android:maxHeight="500dp"
-        android:gravity="start|center_vertical"
+        android:minHeight="100dp"
         android:padding="10dp"
         android:scrollHorizontally="false" />
 
@@ -38,9 +39,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:autofillHints="username"
+        android:gravity="start|center_vertical"
         android:hint="输入获得方式"
         android:inputType="textMultiLine"
-        android:gravity="start|center_vertical"
         android:padding="10dp"
         android:scrollHorizontally="false" />
 
@@ -63,12 +64,12 @@
           android:id="@+id/drop_ratio"
           style="@style/DstEditText"
           android:layout_width="0dp"
+          android:layout_marginStart="10dp"
           android:layout_weight="1"
           android:gravity="center"
           android:hint="掉落概率"
           android:inputType="number"
-          android:padding="10dp"
-          android:layout_marginStart="10dp"/>
+          android:padding="10dp" />
       </LinearLayout>
 
       <LinearLayout
@@ -86,6 +87,37 @@
           android:inputType="text"
           android:padding="10dp" />
 
+        <Button
+          android:id="@+id/animal_add"
+          style="@style/DialogBtnStyleRed"
+          android:layout_width="wrap_content"
+          android:layout_height="50dp"
+          android:layout_marginStart="10dp"
+          android:text="添加动物" />
+
+        <Button
+          android:id="@+id/animal_clear"
+          style="@style/DialogBtnStyleRed"
+          android:layout_width="wrap_content"
+          android:layout_height="50dp"
+          android:layout_marginStart="10dp"
+          android:text="重置" />
+
+      </LinearLayout>
+
+      <TextView
+        android:id="@+id/animal_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="猪人"
+        android:textSize="14dp" />
+
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
         <EditText
           android:id="@+id/animal_cnt"
           style="@style/DstEditText"
@@ -94,19 +126,18 @@
           android:gravity="center"
           android:hint="动物数量"
           android:inputType="number"
-          android:padding="10dp"
-          android:layout_marginStart="10dp"/>
+          android:padding="10dp" />
 
         <EditText
           android:id="@+id/animal_time"
           style="@style/DstEditText"
           android:layout_width="0dp"
+          android:layout_marginStart="10dp"
           android:layout_weight="1"
           android:gravity="center"
           android:hint="孵化时长"
           android:inputType="number"
-          android:padding="10dp"
-          android:layout_marginStart="10dp"/>
+          android:padding="10dp" />
       </LinearLayout>
 
       <LinearLayout
@@ -129,30 +160,30 @@
           style="@style/DialogBtnStyleRed"
           android:layout_width="wrap_content"
           android:layout_height="50dp"
-          android:text="添加饲料"
-          android:layout_marginStart="10dp"/>
+          android:layout_marginStart="10dp"
+          android:text="添加饲料" />
 
         <Button
           android:id="@+id/food_clear"
           style="@style/DialogBtnStyleRed"
           android:layout_width="wrap_content"
           android:layout_height="50dp"
-          android:text="重置"
-          android:layout_marginStart="10dp"/>
+          android:layout_marginStart="10dp"
+          android:text="重置" />
       </LinearLayout>
 
       <TextView
         android:id="@+id/food_desc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14dp"
-        android:text="玉米"/>
+        android:text="玉米"
+        android:textSize="14dp" />
 
       <LinearLayout
-        android:layout_marginTop="10dp"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
         <Button
           android:id="@+id/preview"
@@ -167,8 +198,8 @@
           style="@style/DialogBtnStyleRed"
           android:layout_width="0dp"
           android:layout_height="50dp"
-          android:layout_weight="1"
           android:layout_marginStart="10dp"
+          android:layout_weight="1"
           android:text="使用" />
 
       </LinearLayout>

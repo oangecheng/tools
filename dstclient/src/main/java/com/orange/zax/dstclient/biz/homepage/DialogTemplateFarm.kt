@@ -36,25 +36,22 @@ class DialogTemplateFarm : XDialog() {
   }
 
   private val farm = Template(
-    "这里居住着勤劳而友善的‹›，他们为冒险者们提供了丰富的资源和无私的帮助，投喂相应的饲料可以收获各种类型的产品。" +
-      "\n小动物只会在农场范围内(以农场为中心2x2地皮)活动，右键打开面板可以对农场和动物进行升级(需要携带指定物品)。" +
-      "\n需要‹饲料盆›和‹灵魂孵化器›才能正常工作，需要先建造农场。" +
+    "这里居住着勤劳而友善的‹›" +
       "\n动物: ‹›" +
       "\n数量: " +
       "\n孵化: 分钟" +
-      "\n饲料: ‹›‹›‹›‹›" +
-      "\n升级: 每次等级+1动物数量上限+50%"+
-      "\n设置: mod设置页可配置等级上限和范围"+
-      "\n其他: T键建造的农场无法正常工作"
+      "\n饲料: ‹›‹›‹›‹›"
     ,
-    "击杀‹›有10%概率掉落蓝图" +
-      "\n科技二本‹建筑栏›‹园艺栏›制作"
+    "击杀‹›有10%概率掉落蓝图，科技二本‹建筑栏›‹园艺栏›制作"
   )
 
   var onUseTemplate : ((Template) -> Unit)? = null
 
   private val foodList = mutableSetOf<String>()
   private val foodListLiveData = MutableLiveData<MutableSet<String>>()
+
+  private val animList = mutableSetOf<String>()
+  private val animListLiveData = MutableLiveData<MutableSet<String>>()
 
   override fun getLayoutRes(): Int {
     return R.layout.dst_homepage_template_farm
@@ -65,7 +62,7 @@ class DialogTemplateFarm : XDialog() {
   }
 
   override fun getHeight(): Int {
-    return ViewUtil.dp2px(600)
+    return ViewUtil.dp2px(700)
   }
 
   override fun getTitle(): String? {
@@ -79,6 +76,10 @@ class DialogTemplateFarm : XDialog() {
     val farmGain = findViewById<EditText>(R.id.farm_gain_desc)
 
     val animalName = findViewById<EditText>(R.id.animal_name)
+    val animalAdd = findViewById<View>(R.id.animal_add)
+    val animalClear = findViewById<View>(R.id.animal_clear)
+    val animalDesc = findViewById<TextView>(R.id.animal_desc)
+
     val animalNum = findViewById<EditText>(R.id.animal_cnt)
     val animalTime = findViewById<EditText>(R.id.animal_time)
 
@@ -111,13 +112,35 @@ class DialogTemplateFarm : XDialog() {
       }
     })
 
+
+    animalAdd.setOnClickListener {
+      val name = animalName.text.toString().trim()
+      if (!TextUtils.isEmpty(name)) {
+        animList.add(name)
+        animalName.text.clear()
+        animListLiveData.value = animList
+      }
+    }
+
+    animalClear.setOnClickListener {
+      animList.clear()
+      animListLiveData.value = foodList
+    }
+
+
+    animListLiveData.observe(this, Observer {
+      it.joinToString("|").let { str ->
+        animalDesc.text = str
+      }
+    })
+
+
     fun descFunc() : String {
-      val aName = animalName.text.toString()
       val aNum = animalNum.text.toString().toIntSafe()
       val time = animalTime.text.toString().toIntSafe()
       val food = food()
-      return if (aName.isNotEmpty() && aNum != 0 && time != 0 && food.isNotEmpty()) {
-        desc(aName) + param(aName, aNum, time) + food
+      return if (animList.isNotEmpty() && aNum != 0 && time != 0 && food.isNotEmpty()) {
+        desc() + param(animList.toList(), aNum, time) + food
       } else {
         farm.desc
       }
@@ -148,12 +171,13 @@ class DialogTemplateFarm : XDialog() {
 
   }
 
-  private fun desc(animalName: String): String {
-    return "这里居住着勤劳而友善的‹$animalName›"
+  private fun desc(): String {
+    return "这里居住着勤劳而友善的‹›"
   }
 
-  private fun param(animalName: String, animalNum : Int, time : Int) : String {
-    return "\n动物: ‹$animalName›" +
+  private fun param(animalName: List<String>, animalNum : Int, time : Int) : String {
+    val str = animalName.joinToString("›‹", "‹", "›")
+    return "\n动物: $str" +
       "\n数量: $animalNum" +
       "\n孵化: ${time}分钟"
   }
@@ -170,7 +194,6 @@ class DialogTemplateFarm : XDialog() {
   }
 
   private fun gain(name : String, r : Int) : String {
-    return "击杀‹$name›有$r%概率掉落蓝图" +
-      "\n科技二本‹建筑栏›‹园艺栏›制作"
+    return "击杀‹$name›有$r%概率掉落蓝图，科技二本‹建筑栏›‹园艺栏›制作"
   }
 }
