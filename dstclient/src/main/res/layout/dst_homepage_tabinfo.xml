@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:background="@color/white"
-  android:gravity="center"
-  android:orientation="vertical"
   android:paddingHorizontal="50dp">
 
   <TextView
@@ -13,55 +11,79 @@
     style="@style/DialogTitle"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginTop="30dp"
     android:text="tab信息管理" />
 
   <EditText
     android:id="@+id/tab_info"
     style="@style/DstEditText"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:layout_marginTop="10dp"
+    android:layout_height="match_parent"
+    android:layout_marginTop="80dp"
+    android:layout_marginBottom="200dp"
     android:autofillHints="username"
     android:gravity="start|center_vertical"
     android:hint="tab信息"
     android:inputType="textMultiLine"
     android:padding="10dp" />
 
-  <Button
-    android:id="@+id/tab_select"
-    style="@style/DstBtnStyle"
-    android:layout_width="match_parent"
-    android:layout_marginBottom="25dp"
+  <LinearLayout
     android:layout_marginTop="5dp"
-    android:text="选择tab" />
-
-  <Button
-    android:id="@+id/tab_search"
-    style="@style/DstBtnStyle"
+    android:orientation="horizontal"
+    android:layout_gravity="bottom"
     android:layout_width="match_parent"
-    android:layout_marginTop="25dp"
-    android:text="查询tab信息" />
+    android:layout_height="wrap_content">
+
+    <Button
+      android:id="@+id/tab_select"
+      style="@style/DstBtnStyle"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:text="选择tab" />
+
+    <Button
+      android:id="@+id/tab_search"
+      style="@style/DstBtnStyle"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:layout_marginBottom="140dp"
+      android:layout_marginStart="10dp"
+      android:text="查询tab信息" />
+
+  </LinearLayout>
 
 
-  <Button
-    android:id="@+id/tab_update"
-    style="@style/DstBtnStyle"
+  <LinearLayout
+    android:layout_marginTop="15dp"
+    android:layout_gravity="bottom"
+    android:layout_marginBottom="70dp"
     android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:text="更新tab信息" />
+    android:layout_height="wrap_content">
 
-  <Button
-    android:id="@+id/tab_add"
-    style="@style/DstBtnStyle"
-    android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:text="新增tab信息" />
+    <Button
+      android:id="@+id/tab_update"
+      style="@style/DstBtnStyle"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:text="更新" />
 
-  <Button
-    android:id="@+id/tab_del"
-    style="@style/DstBtnStyle"
-    android:layout_width="match_parent"
-    android:layout_marginTop="10dp"
-    android:text="删除tab信息" />
+    <Button
+      android:id="@+id/tab_add"
+      style="@style/DstBtnStyle"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:layout_marginStart="5dp"
+      android:text="新增" />
 
-</LinearLayout>
+    <Button
+      android:id="@+id/tab_del"
+      style="@style/DstBtnStyle"
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:layout_marginStart="5dp"
+      android:text="删除" />
+  </LinearLayout>
+
+
+</FrameLayout>

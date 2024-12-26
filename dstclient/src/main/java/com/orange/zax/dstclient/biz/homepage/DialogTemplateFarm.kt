@@ -117,7 +117,7 @@ class DialogTemplateFarm : XDialog() {
       val time = animalTime.text.toString().toIntSafe()
       val food = food()
       return if (aName.isNotEmpty() && aNum != 0 && time != 0 && food.isNotEmpty()) {
-        desc(aName) + param(aName, aNum, time) + food + ext()
+        desc(aName) + param(aName, aNum, time) + food
       } else {
         farm.desc
       }
@@ -167,12 +167,6 @@ class DialogTemplateFarm : XDialog() {
       s.append("‹$it›")
     }
     return s.toString()
-  }
-
-  private fun ext(): String {
-    return "\n升级: 每次等级+1动物数量上限+50%" +
-      "\n设置: mod设置页可配置等级上限和范围" +
-      "\n其他: T键建造的农场无法正常工作"
   }
 
   private fun gain(name : String, r : Int) : String {

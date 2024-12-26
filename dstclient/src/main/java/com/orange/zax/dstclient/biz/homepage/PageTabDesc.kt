@@ -12,6 +12,7 @@ import com.orange.zax.dstclient.api.XGson
 import com.orange.zax.dstclient.biz.homepage.data.ItemCache
 import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.biz.homepage.data.TabInfo
+import com.orange.zax.dstclient.utils.DstAlert
 import com.orange.zax.dstclient.utils.ToastUtil
 import com.ustc.zax.base.fragment.BaseFragment
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -30,8 +31,6 @@ class PageTabDesc : BaseFragment() {
       return PageTabDesc()
     }
   }
-
-
 
   private var tab = 0
 
@@ -68,22 +67,25 @@ class PageTabDesc : BaseFragment() {
       )
     }
 
+    fun getTabId() : String {
+      return "${TAB_ID}${tab}"
+    }
+
+    fun isValidData() : Boolean {
+      return tab != 0 && desc.text.toString().isNotEmpty()
+    }
+
     findViewById<View>(R.id.tab_search).setOnClickListener {
-      val id = "${TAB_ID}${tab}"
-      val da = ItemCache.tab(id)
+      val da = ItemCache.tab(getTabId())
       if (da != null) {
         desc.setText(da.desc)
       }
     }
 
     findViewById<View>(R.id.tab_update).setOnClickListener {
-      if (tab == 0) return@setOnClickListener
+      if (!isValidData()) return@setOnClickListener
       val d = desc.text.toString()
-      if (d.isEmpty()) {
-        return@setOnClickListener
-      }
-      val id = "${TAB_ID}${tab}"
-
+      val id = getTabId()
       val info = TabInfo(id, tab, d)
       val str = XGson.GSON.toJson(info)
 
@@ -101,13 +103,9 @@ class PageTabDesc : BaseFragment() {
     }
 
     findViewById<View>(R.id.tab_add).setOnClickListener {
-      if (tab == 0) return@setOnClickListener
+      if (!isValidData()) return@setOnClickListener
       val d = desc.text.toString()
-      if (d.isEmpty()) {
-        return@setOnClickListener
-      }
-      val id = "${TAB_ID}${tab}"
-
+      val id = getTabId()
       val info = TabInfo(id, tab, d)
       val str = XGson.GSON.toJson(info)
 
@@ -126,22 +124,20 @@ class PageTabDesc : BaseFragment() {
 
     findViewById<View>(R.id.tab_del).setOnClickListener {
       if (tab == 0) return@setOnClickListener
-      val d = desc.text.toString()
-      if (d.isEmpty()) {
-        return@setOnClickListener
-      }
-      val id = "${TAB_ID}${tab}"
-      PageApiService.get().deleteItem(id)
-        .map(ResponseFunction())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe({
-          ItemCache.cacheTab(id, null)
-          ToastUtil.showShort("删除成功")
-        }, {
+      DstAlert.alert(requireContext(), "确定删除数据吗?") {
+        val id = getTabId()
+        PageApiService.get().deleteItem(id)
+          .map(ResponseFunction())
+          .observeOn(AndroidSchedulers.mainThread())
+          .subscribe({
+            ItemCache.cacheTab(id, null)
+            ToastUtil.showShort("删除成功")
+          }, {
 
-        }).also {
-          autoDispose(it)
-        }
+          }).also {
+            autoDispose(it)
+          }
+      }
     }
 
   }
