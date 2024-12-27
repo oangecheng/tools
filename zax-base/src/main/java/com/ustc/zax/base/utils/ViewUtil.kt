@@ -1,8 +1,11 @@
 package com.ustc.zax.base.utils
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import android.view.View
 import androidx.annotation.ColorInt
 import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
@@ -58,6 +61,17 @@ object ViewUtil {
 
   fun res(): Resources {
     return context().resources
+  }
+
+  fun activity(view: View): Activity? {
+    var context = view.context
+    while (context is ContextWrapper) {
+      if (context is Activity) {
+        return context
+      }
+      context = context.baseContext
+    }
+    return null
   }
 
   private fun context(): Context {

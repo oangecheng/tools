@@ -63,18 +63,16 @@ class PageItem : BaseFragment() {
     )
   }
 
+  private var imgUri : Uri? = null
+
   override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     if (requestCode === 100 && resultCode === RESULT_OK && data != null) {
       val imageUri: Uri? = data.data
-      val id = view?.findViewById<EditText>(R.id.input_image_id)?.text?.toString()?.trim()
-      if (imageUri != null && id?.isNotEmpty() == true) {
-        imageLoader?.onSelect(imageUri, id) { url ->
-          view?.findViewById<EditText>(R.id.input_image_url)?.setText(url)
-          view?.findViewById<ImageView>(R.id.image)?.let {
-            Glide.with(this).load(url).into(it)
-          }
+      if (imageUri != null) {
+        imgUri = imageUri
+        view?.findViewById<ImageView>(R.id.image)?.let {
+          Glide.with(this).load(imageUri).into(it)
         }
-
       }
     }
   }
@@ -106,8 +104,6 @@ class PageItem : BaseFragment() {
       val url = vUrl.text.toString().trim()
       if (id.isNotEmpty() && name.isNotEmpty() && url.isNotEmpty()) {
         addPrefab(type, Prefab(id, name, url)) {
-          vId.setText(EMPTY)
-          vName.setText(EMPTY)
           vUrl.setText(EMPTY)
         }
       }
@@ -173,11 +169,22 @@ class PageItem : BaseFragment() {
     }
 
     vImg.setOnClickListener {
-      val url = vUrl.text.toString().trim()
-      if (url.isNotEmpty()) {
-        Glide.with(this)
-          .load(url)
-          .into(vImg)
+      val uri = imgUri
+      val id = findViewById<EditText>(R.id.input_image_id).text.toString().trim()
+      if (uri != null && id.isNotEmpty()) {
+        imageLoader?.onSelect(uri, id) { url ->
+          findViewById<EditText>(R.id.input_image_url).setText(url)
+          Glide.with(this)
+            .load(url)
+            .into(vImg)
+        }
+      } else {
+        val url = vUrl.text.toString().trim()
+        if (url.isNotEmpty()) {
+          Glide.with(this)
+            .load(url)
+            .into(vImg)
+        }
       }
     }
   }

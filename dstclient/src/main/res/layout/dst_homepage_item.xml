@@ -38,31 +38,29 @@
   </LinearLayout>
 
 
-  <EditText
+  <com.orange.zax.dstclient.view.XInputTextView
     android:id="@+id/input_desc"
     style="@style/DstEditText"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_marginTop="10dp"
     android:autofillHints="username"
-    android:hint="输入物品介绍"
-    android:inputType="textMultiLine"
+    android:hint="物品介绍"
     android:minHeight="100dp"
     android:gravity="start|center_vertical"
     android:padding="10dp"
     android:scrollHorizontally="false" />
 
-  <EditText
+  <com.orange.zax.dstclient.view.XInputTextView
     android:id="@+id/input_gain"
     style="@style/DstEditText"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="60dp"
     android:layout_marginTop="10dp"
     android:autofillHints="username"
     android:gravity="start|center_vertical"
     android:padding="10dp"
-    android:hint="详细获取方式描述"
-    android:inputType="textMultiLine" />
+    android:hint="详细获取方式" />
 
   <LinearLayout
     android:layout_width="match_parent"

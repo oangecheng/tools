@@ -21,6 +21,7 @@ import com.orange.zax.dstclient.biz.homepage.data.ItemType
 import com.orange.zax.dstclient.biz.homepage.data.Prefab
 import com.orange.zax.dstclient.biz.homepage.data.Template
 import com.orange.zax.dstclient.utils.TextWatcherAdapter
+import com.orange.zax.dstclient.view.XInputTextView
 import com.ustc.zax.base.fragment.BaseFragment
 
 /**
@@ -41,10 +42,12 @@ open class PageBase : BaseFragment() {
     )
   }
 
+  private lateinit var viewItemDesc: TextView
+  private lateinit var viewItemGain: TextView
+
+
   private lateinit var etId: EditText
-  private lateinit var etDesc: EditText
   private lateinit var etName: EditText
-  private lateinit var etGain: EditText
   private lateinit var image : EditText
   private lateinit var imagePre : ImageView
 
@@ -77,16 +80,16 @@ open class PageBase : BaseFragment() {
 
   private fun setTemplate(type: Int) {
     val data = Template.get(type)
-    etDesc.setText(data.desc)
-    etGain.setText(data.gain)
+    viewItemDesc.text = data.desc
+    viewItemGain.text = data.gain
   }
 
   private fun initViews() {
     findViewById<View>(R.id.template_farm).setOnClickListener {
       val dialog = DialogTemplateFarm.instance()
       dialog.onUseTemplate = {
-        etDesc.setText(it.desc)
-        etGain.setText(it.gain)
+        viewItemDesc.text = it.desc
+        viewItemGain.text = it.gain
       }
       dialog.show(
         childFragmentManager,
@@ -104,8 +107,8 @@ open class PageBase : BaseFragment() {
 
     etId = findViewById(R.id.input_id)
     etName = findViewById(R.id.input_name)
-    etDesc = findViewById(R.id.input_desc)
-    etGain = findViewById(R.id.input_gain)
+    viewItemDesc = findViewById(R.id.input_desc)
+    viewItemGain = findViewById(R.id.input_gain)
     image = findViewById(R.id.input_image)
     imagePre = findViewById(R.id.image_preview)
 
@@ -118,18 +121,6 @@ open class PageBase : BaseFragment() {
     etName.addTextChangedListener(object : TextWatcherAdapter {
       override fun afterTextChanged(s: Editable?) {
         itemInfoCache.name = s.toString()
-      }
-    })
-
-    etDesc.addTextChangedListener(object : TextWatcherAdapter {
-      override fun afterTextChanged(s: Editable?) {
-        itemInfoCache.desc = s.toString()
-      }
-    })
-
-    etGain.addTextChangedListener(object : TextWatcherAdapter {
-      override fun afterTextChanged(s: Editable?) {
-        itemInfoCache.gain = s.toString()
       }
     })
 
@@ -153,6 +144,8 @@ open class PageBase : BaseFragment() {
     }
 
     btnAction.onClickFilter {
+      itemInfoCache.desc = viewItemDesc.text.toString()
+      itemInfoCache.gain = viewItemGain.text.toString()
       itemInfoCache.image = image.text.toString().trim()
       if (itemInfoCache.id.isNotEmpty()) {
         onAction(itemInfoCache)
@@ -218,8 +211,8 @@ open class PageBase : BaseFragment() {
   protected fun updatePage(data: ItemData) {
     etId.setText(data.id)
     etName.setText(data.name)
-    etDesc.setText(data.desc)
-    etGain.setText(data.gain)
+    viewItemDesc.text = data.desc
+    viewItemGain.text = data.gain
     image.setText(data.image)
     spTech.setSelection(data.gainType - 1)
     updateTabText(data.tabs)

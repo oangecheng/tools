@@ -172,7 +172,7 @@ class DialogTemplateFarm : XDialog() {
   }
 
   private fun desc(): String {
-    return "这里居住着勤劳而友善的‹›"
+    return "这里居住着勤劳而友善的"
   }
 
   private fun param(animalName: List<String>, animalNum : Int, time : Int) : String {
